@@ -1,0 +1,7 @@
+node_modules/
+.taskmaster/
+dist/
+build/
+coverage/
+*.log
+package-lock.json
