@@ -414,6 +414,10 @@ These commands make AI calls and may take up to a minute:
 - Provides more informed task creation and updates
 - Recommended for complex technical tasks
 
+### Task Hints
+
+- Remember as you process subtasks with task-master, that you should be annotating what you learn back into the subtask itself to make ongoing development more knowledgeable
+
 ---
 
 _This guide ensures Claude Code has immediate access to Task Master's essential functionality for agentic development workflows._
