@@ -262,22 +262,22 @@
       {
         "id": 5,
         "title": "Add Environment Variable Configuration",
-        "description": "Implement comprehensive environment variable support for customizing display and behavior",
-        "details": "Support environment variables: CCUSAGE_BYOBU_FORMAT (compact/full), CCUSAGE_BYOBU_COLORS (auto/true/false), CCUSAGE_BYOBU_THRESHOLD (percentage for color changes), CCUSAGE_BYOBU_REFRESH (refresh interval in seconds). Pass through ccusage core variables: CLAUDE_CONFIG_DIR, CCUSAGE_DATA_DIR, CLAUDE_PLAN_TYPE, CLAUDE_API_KEY. Implement configuration validation and sensible defaults. Add --config flag to show current configuration values.",
-        "testStrategy": "Test each environment variable individually and in combination, verify default values are applied correctly, test configuration validation with invalid values, ensure ccusage core variables are properly passed through",
-        "priority": "medium",
+        "description": "Implement comprehensive environment variable support for customizing display and behavior - COMPLETED",
+        "status": "done",
         "dependencies": [
           4
         ],
-        "status": "pending",
+        "priority": "medium",
+        "details": "Successfully implemented full environment variable support including: CCUSAGE_BYOBU_FORMAT (compact/full), CCUSAGE_BYOBU_COLORS (auto/true/false), CCUSAGE_BYOBU_THRESHOLD (percentage for color changes), CCUSAGE_BYOBU_REFRESH (refresh interval in seconds). Pass-through support for ccusage core variables (CLAUDE_CONFIG_DIR, CCUSAGE_DATA_DIR, CLAUDE_PLAN_TYPE, CLAUDE_API_KEY) is fully functional. Configuration validation with sensible defaults has been implemented. The --config flag now supports both displaying current configuration and loading from external files (.env and .json formats). All code has been thoroughly tested and passes linting checks.",
+        "testStrategy": "All environment variables have been tested individually and in combination. Default values are correctly applied when variables are not set. Configuration validation properly rejects invalid values with clear error messages. Core ccusage variables are confirmed to pass through correctly to child processes. The --config flag has been tested in both display mode and file loading mode with various file formats.",
         "subtasks": [
           {
             "id": 1,
             "title": "Design Environment Variable Support and Structure",
             "description": "Define the environment variables to support, including naming conventions, scope, and organization for different environments (development, staging, production). Establish a consistent and descriptive naming scheme and decide on the use of prefixes or namespaces.",
             "dependencies": [],
-            "details": "Incorporate best practices such as avoiding committing sensitive data, using .gitignore for .env files, and organizing variables per environment with .env files or similar mechanisms. Document required variables and their purposes clearly for maintainability and readability.",
-            "status": "pending",
+            "details": "Incorporate best practices such as avoiding committing sensitive data, using .gitignore for .env files, and organizing variables per environment with .env files or similar mechanisms. Document required variables and their purposes clearly for maintainability and readability.\n<info added on 2025-06-23T23:40:47.171Z>\nAnalysis of current implementation reveals that CCUSAGE_BYOBU_COLORS is already implemented at line 43 in lib/index.js. The environment variable design will include:\n\n1. CCUSAGE_BYOBU_FORMAT (compact/full) - Controls display format with 'compact' showing minimal info and 'full' showing detailed usage breakdown\n2. CCUSAGE_BYOBU_COLORS (auto/true/false) - Enhancement of existing implementation to support 'auto' mode for terminal capability detection\n3. CCUSAGE_BYOBU_THRESHOLD (percentage value) - Configurable threshold for color transitions (e.g., \"80\" for 80% warning level)\n4. CCUSAGE_BYOBU_REFRESH (seconds) - Controls refresh interval for status updates\n5. Pass-through variables: CLAUDE_CONFIG_DIR, CCUSAGE_DATA_DIR, CLAUDE_PLAN_TYPE, CLAUDE_API_KEY - These will be passed directly to ccusage without modification\n\nImplementation approach:\n- Maintain CCUSAGE_BYOBU_ prefix convention for all tool-specific variables\n- Preserve ccusage core variable names for seamless pass-through\n- Implement validation with defaults: format='compact', colors='auto', threshold='80', refresh='60'\n- Add --config flag to display current environment configuration and validation status\n</info added on 2025-06-23T23:40:47.171Z>",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -287,8 +287,8 @@
             "dependencies": [
               1
             ],
-            "details": "Use validation libraries such as Zod or envalid to enforce type safety and provide descriptive error messages on startup if variables are missing or invalid. Ensure that defaults are applied correctly and that validation integrates seamlessly with the environment variable loading process.",
-            "status": "pending",
+            "details": "Use validation libraries such as Zod or envalid to enforce type safety and provide descriptive error messages on startup if variables are missing or invalid. Ensure that defaults are applied correctly and that validation integrates seamlessly with the environment variable loading process.\n<info added on 2025-06-23T23:42:29.405Z>\nEnvironment variable configuration module has been successfully implemented with a comprehensive validation system. The lib/config.js module now provides type-safe validation for all CCUSAGE_BYOBU_* environment variables with appropriate error handling and default values. The implementation includes format validation (compact/full), color mode validation (auto/true/false), threshold percentage validation (0-100%), and refresh interval validation (positive integers). The configuration system integrates seamlessly with the main application logic in index.js, enabling dynamic threshold-based color coding and format selection. Pass-through support for core ccusage environment variables has been implemented to ensure proper inheritance by child processes. A new --config flag has been added to the CLI for displaying current configuration values. All code has been verified to pass linting standards with no errors.\n</info added on 2025-06-23T23:42:29.405Z>",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -298,8 +298,8 @@
             "dependencies": [
               1
             ],
-            "details": "Implement or configure the system to propagate environment variables automatically to subtasks, similar to exporting variables in Makefiles or using global environment settings. Provide mechanisms to override or extend variables in subtasks if needed.",
-            "status": "pending",
+            "details": "Implement or configure the system to propagate environment variables automatically to subtasks, similar to exporting variables in Makefiles or using global environment settings. Provide mechanisms to override or extend variables in subtasks if needed.\n<info added on 2025-06-23T23:43:09.901Z>\nBased on the user request, I need to add information about the already-implemented pass-through environment variable functionality. Here's the new text to append:\n\nPass-through environment variable functionality has been successfully implemented in subtask 5.2. The implementation includes:\n\n1. getPassThroughEnv() function in lib/config.js that identifies and collects the core ccusage environment variables:\n   - CLAUDE_CONFIG_DIR\n   - CCUSAGE_DATA_DIR  \n   - CLAUDE_PLAN_TYPE\n   - CLAUDE_API_KEY\n\n2. main() function in lib/index.js that passes these variables to the ccusage subprocess via execSync env option:\n   - env: { ...process.env, ...passThroughEnv }\n\n3. The configuration display (--config flag) shows the status of these pass-through variables while masking sensitive API keys\n\nThis implementation ensures that environment variables set in the parent process are properly propagated to the ccusage child process, maintaining consistent configuration across all subprocess executions. The functionality is complete and no further implementation is required for basic pass-through capability.\n</info added on 2025-06-23T23:43:09.901Z>",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -310,8 +310,8 @@
               1,
               2
             ],
-            "details": "Parse the --config flag input to load environment variables and configuration from the specified file, overriding defaults or environment settings as appropriate. Ensure validation is applied to the loaded configuration and that the system gracefully handles missing or malformed config files.",
-            "status": "pending",
+            "details": "Parse the --config flag input to load environment variables and configuration from the specified file, overriding defaults or environment settings as appropriate. Ensure validation is applied to the loaded configuration and that the system gracefully handles missing or malformed config files.\n<info added on 2025-06-23T23:45:17.294Z>\nThe --config flag has been successfully implemented with dual functionality. When used without arguments (--config), it displays the current configuration. When used with a filename (--config=filename), it loads configuration from the specified file.\n\nThe implementation includes a new loadConfigFile() function in lib/config.js that handles multiple file formats. JSON files are parsed directly, while environment files support the standard KEY=VALUE format with comment lines (starting with #) and quoted values. The function intelligently handles both prefixed (CCUSAGE_BYOBU_*) and unprefixed variable names, stripping the prefix when present.\n\nCore environment variables from the ccusage tool are properly passed through when loading configuration files, maintaining compatibility with the parent tool's settings. The system includes comprehensive validation that checks all loaded values against the same rules used for environment variables, providing clear error messages when invalid values are encountered.\n\nError handling covers all edge cases including missing files, JSON parsing errors, and malformed environment file syntax. The argument parsing order was corrected to ensure configuration files are loaded before any configuration display occurs, allowing loaded values to be reflected immediately.\n\nTesting confirmed successful operation with both .env and .json format configuration files, with proper validation and error reporting throughout the loading process.\n</info added on 2025-06-23T23:45:17.294Z>",
+            "status": "done",
             "testStrategy": ""
           }
         ]
@@ -999,7 +999,7 @@
     ],
     "metadata": {
       "created": "2025-06-23T22:21:54.073Z",
-      "updated": "2025-06-23T23:38:31.820Z",
+      "updated": "2025-06-23T23:46:50.440Z",
       "description": "Tasks for master context"
     }
   }
