@@ -205,44 +205,56 @@
         "id": 4,
         "title": "Implement Color-Coded Usage Levels",
         "description": "Add visual color coding based on token usage percentages using byobu's color system",
-        "details": "Implement color coding logic: Green (0-60% usage), Yellow (60-85% usage), Red (85-100% usage). Use byobu color codes format: #[fg=green], #[fg=yellow], #[fg=red]. Extract usage percentage from ccusage JSON data. Apply colors to the entire status string or specific components (cost, progress bar). Add environment variable CCUSAGE_BYOBU_COLORS for enabling/disabling colors (auto/true/false). Ensure colors work in both dark and light terminal themes.",
-        "testStrategy": "Test color output in different byobu themes, verify color codes render correctly, test with various usage percentages, validate environment variable override functionality",
-        "priority": "medium",
+        "status": "done",
         "dependencies": [
           3
         ],
-        "status": "pending",
+        "priority": "medium",
+        "details": "Color coding logic implemented with thresholds: Green (0-59% usage), Yellow (60-84% usage), Red (85-100% usage). Usage percentage calculated as (100 - remaining percentage). Uses byobu color format: #[fg=green], #[fg=yellow], #[fg=red] with #[default] reset. Colors are applied to the entire status string. Environment variable CCUSAGE_BYOBU_COLORS controls feature (auto/true/false, default: auto). The system dynamically calculates usage from remaining time and applies appropriate color codes while respecting environment variable overrides.",
+        "testStrategy": "Test color output in actual byobu environment, verify color codes render correctly with different usage percentages (test boundaries at 59%, 60%, 84%, 85%), validate CCUSAGE_BYOBU_COLORS environment variable with all three settings (auto, true, false), ensure proper color reset with #[default], test in both dark and light terminal themes",
         "subtasks": [
           {
             "id": 1,
             "title": "Implement Color Coding Logic",
             "description": "Develop the core logic to assign colors based on predefined criteria such as asset status or type, ensuring colors update dynamically as conditions change.",
+            "status": "done",
             "dependencies": [],
             "details": "Define color mappings for different categories or statuses (e.g., red for fabrics, orange for furniture). Implement conditional logic to apply these colors to relevant UI elements or assets. Ensure the system supports easy updates to color assignments without extensive refactoring.",
-            "status": "pending",
             "testStrategy": ""
           },
           {
             "id": 2,
             "title": "Integrate Environment Variable Control for Color Coding",
             "description": "Add configuration support to control color coding behavior via environment variables, allowing toggling or customization without code changes.",
+            "status": "done",
             "dependencies": [
               1
             ],
             "details": "Create environment variables to enable or disable color coding features or to select color themes. Modify the color coding logic to read these variables at runtime and adjust behavior accordingly. Ensure secure and efficient access to environment variables within the application.",
-            "status": "pending",
             "testStrategy": ""
           },
           {
             "id": 3,
             "title": "Test Color Rendering Across Themes",
             "description": "Conduct thorough testing to verify that color coding renders correctly across different UI themes and environments.",
+            "status": "done",
             "dependencies": [
               1,
               2
             ],
             "details": "Develop test cases covering all color-coded elements under various themes (e.g., light, dark). Validate that colors are applied correctly and remain distinguishable. Include automated visual regression tests if possible to catch unintended changes in color rendering.",
-            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Test in Actual Byobu Environment",
+            "description": "Validate the implemented color coding feature in a real byobu session to ensure proper rendering and functionality.",
+            "status": "done",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Test the color-coded status display in an active byobu session. Verify that #[fg=color] and #[default] codes render correctly. Test with different usage percentages to confirm color transitions at 59%/60% and 84%/85% boundaries. Validate that the CCUSAGE_BYOBU_COLORS environment variable properly controls the feature in the byobu context.",
             "testStrategy": ""
           }
         ]
@@ -987,7 +999,7 @@
     ],
     "metadata": {
       "created": "2025-06-23T22:21:54.073Z",
-      "updated": "2025-06-23T23:28:14.087Z",
+      "updated": "2025-06-23T23:38:31.820Z",
       "description": "Tasks for master context"
     }
   }
