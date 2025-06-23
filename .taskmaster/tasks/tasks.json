@@ -1,0 +1,786 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Research and Analyze Existing tmux Implementation",
+        "description": "Analyze the existing tmux ccusage implementation to understand current approach and identify any potential issues or improvements",
+        "details": "Review the tmux implementation at https://github.com/yuki-yano/dotfiles/blob/main/bin/tmux-status-ccusage. Analyze the Node.js code structure, JSON parsing logic, cost calculation methods, and visual progress bar implementation. Document any inefficiencies, bugs, or areas for improvement. Understand the ccusage CLI integration pattern and output formatting. This analysis will inform the byobu port and help avoid repeating any problematic patterns.",
+        "testStrategy": "Create test cases that verify the tmux script works as expected, document edge cases and failure modes, validate JSON parsing logic manually",
+        "priority": "high",
+        "dependencies": [],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Review Code Structure",
+            "description": "Analyze the overall organization and design of the code, focusing on modularity, adherence to design patterns, and maintainability.",
+            "dependencies": [],
+            "details": "Evaluate if the code follows established architectural guidelines, is modular, and if functions and classes are of reasonable size and complexity. Check for separation of concerns and single responsibility principles.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Evaluate JSON Parsing Logic",
+            "description": "Examine the logic used for parsing JSON data to ensure correctness, robustness, and error handling.",
+            "dependencies": [
+              1
+            ],
+            "details": "Assess how JSON data is parsed, including validation of input, handling of edge cases, and error scenarios. Verify that the parsing logic aligns with project requirements and is maintainable.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Assess Cost Calculation Methods",
+            "description": "Review the methods used for cost calculation to verify accuracy, efficiency, and clarity.",
+            "dependencies": [
+              1
+            ],
+            "details": "Analyze the algorithms and formulas used for cost calculations, ensuring they meet the intended functionality and handle all relevant cases. Check for readability and maintainability of the calculation code.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Examine Visual Progress Bar Implementation",
+            "description": "Inspect the implementation of the visual progress bar component for usability, responsiveness, and integration with the rest of the code.",
+            "dependencies": [
+              1
+            ],
+            "details": "Evaluate the UI code related to the progress bar, including how progress is calculated and displayed, responsiveness to data changes, and adherence to UI/UX best practices.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Setup NPM Package Structure",
+        "description": "Create the foundational NPM package structure for ccusage-byobu with proper configuration and dependencies",
+        "details": "Initialize NPM package with name 'ccusage-byobu', set up package.json with bin entry pointing to './bin/ccusage-byobu.js', configure main entry as './lib/index.js'. Add ccusage as dependency with '^latest' version constraint. Set Node.js engine requirement to '>=18.0.0'. Create basic directory structure: bin/, lib/, test/. Configure ESLint and Prettier for code quality. Set up package scripts for build, test, and publish workflows.",
+        "testStrategy": "Verify package.json structure is valid, test npm install locally, ensure bin executable works, validate package structure follows NPM best practices",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "Port Core Logic from tmux to Byobu Format",
+        "description": "Adapt the tmux ccusage script logic to work with byobu's status system requirements",
+        "details": "Create bin/ccusage-byobu.js executable that replicates tmux functionality for byobu. Implement ccusage blocks --json --offline command execution, JSON parsing for active sessions (isActive == true), cost extraction and formatting. Port the visual progress bar logic using Unicode characters. Ensure output is concise (max 25 characters) and follows byobu status format. Handle graceful fallback to empty string when no active sessions. Use process.stdout.write() for clean output without newlines.",
+        "testStrategy": "Test with active and inactive Claude Code sessions, verify JSON parsing with malformed input, test output length constraints, validate Unicode progress bar rendering",
+        "priority": "high",
+        "dependencies": [
+          1,
+          2
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Command Execution Module",
+            "description": "Develop the core functionality to execute commands within the target environment, ensuring compatibility and correct handling of input/output streams.",
+            "dependencies": [],
+            "details": "Design and implement a modular command execution component that can run shell or system commands, capture their output, handle errors, and support asynchronous or synchronous execution modes as needed.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Develop JSON Parsing for Active Sessions",
+            "description": "Create a parser to extract and interpret JSON data representing active sessions from command outputs or APIs.",
+            "dependencies": [
+              1
+            ],
+            "details": "Implement robust JSON parsing logic to read active session data, validate the structure, handle parsing errors, and convert the data into usable internal representations for further processing.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Extract and Format Cost Information",
+            "description": "Build functionality to extract cost-related data from parsed session information and format it for display or reporting.",
+            "dependencies": [
+              2
+            ],
+            "details": "Identify cost fields within the session data, apply necessary calculations or conversions, and format the output in a clear, user-friendly manner consistent with project requirements.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Port Progress Bar Component",
+            "description": "Adapt and integrate an existing progress bar implementation to the new environment, ensuring it works seamlessly with the command execution and output formatting.",
+            "dependencies": [
+              1
+            ],
+            "details": "Analyze the current progress bar logic, refactor or rewrite it to fit the new platform constraints, and test its interaction with ongoing command executions and output streams.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Implement Output Formatting for Byobu",
+            "description": "Design and implement output formatting tailored for the Byobu terminal multiplexer environment, ensuring readability and usability.",
+            "dependencies": [
+              3,
+              4
+            ],
+            "details": "Create formatting rules and rendering logic that comply with Byobu's display capabilities, including handling of colors, spacing, and dynamic content updates such as progress bars and session cost displays.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Implement Color-Coded Usage Levels",
+        "description": "Add visual color coding based on token usage percentages using byobu's color system",
+        "details": "Implement color coding logic: Green (0-60% usage), Yellow (60-85% usage), Red (85-100% usage). Use byobu color codes format: #[fg=green], #[fg=yellow], #[fg=red]. Extract usage percentage from ccusage JSON data. Apply colors to the entire status string or specific components (cost, progress bar). Add environment variable CCUSAGE_BYOBU_COLORS for enabling/disabling colors (auto/true/false). Ensure colors work in both dark and light terminal themes.",
+        "testStrategy": "Test color output in different byobu themes, verify color codes render correctly, test with various usage percentages, validate environment variable override functionality",
+        "priority": "medium",
+        "dependencies": [
+          3
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Color Coding Logic",
+            "description": "Develop the core logic to assign colors based on predefined criteria such as asset status or type, ensuring colors update dynamically as conditions change.",
+            "dependencies": [],
+            "details": "Define color mappings for different categories or statuses (e.g., red for fabrics, orange for furniture). Implement conditional logic to apply these colors to relevant UI elements or assets. Ensure the system supports easy updates to color assignments without extensive refactoring.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Integrate Environment Variable Control for Color Coding",
+            "description": "Add configuration support to control color coding behavior via environment variables, allowing toggling or customization without code changes.",
+            "dependencies": [
+              1
+            ],
+            "details": "Create environment variables to enable or disable color coding features or to select color themes. Modify the color coding logic to read these variables at runtime and adjust behavior accordingly. Ensure secure and efficient access to environment variables within the application.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Test Color Rendering Across Themes",
+            "description": "Conduct thorough testing to verify that color coding renders correctly across different UI themes and environments.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Develop test cases covering all color-coded elements under various themes (e.g., light, dark). Validate that colors are applied correctly and remain distinguishable. Include automated visual regression tests if possible to catch unintended changes in color rendering.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Add Environment Variable Configuration",
+        "description": "Implement comprehensive environment variable support for customizing display and behavior",
+        "details": "Support environment variables: CCUSAGE_BYOBU_FORMAT (compact/full), CCUSAGE_BYOBU_COLORS (auto/true/false), CCUSAGE_BYOBU_THRESHOLD (percentage for color changes), CCUSAGE_BYOBU_REFRESH (refresh interval in seconds). Pass through ccusage core variables: CLAUDE_CONFIG_DIR, CCUSAGE_DATA_DIR, CLAUDE_PLAN_TYPE, CLAUDE_API_KEY. Implement configuration validation and sensible defaults. Add --config flag to show current configuration values.",
+        "testStrategy": "Test each environment variable individually and in combination, verify default values are applied correctly, test configuration validation with invalid values, ensure ccusage core variables are properly passed through",
+        "priority": "medium",
+        "dependencies": [
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Design Environment Variable Support and Structure",
+            "description": "Define the environment variables to support, including naming conventions, scope, and organization for different environments (development, staging, production). Establish a consistent and descriptive naming scheme and decide on the use of prefixes or namespaces.",
+            "dependencies": [],
+            "details": "Incorporate best practices such as avoiding committing sensitive data, using .gitignore for .env files, and organizing variables per environment with .env files or similar mechanisms. Document required variables and their purposes clearly for maintainability and readability.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement Environment Variable Validation and Defaults",
+            "description": "Develop a validation routine to verify that all required environment variables are set and conform to expected types and formats. Implement default values for optional variables where applicable.",
+            "dependencies": [
+              1
+            ],
+            "details": "Use validation libraries such as Zod or envalid to enforce type safety and provide descriptive error messages on startup if variables are missing or invalid. Ensure that defaults are applied correctly and that validation integrates seamlessly with the environment variable loading process.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Enable Pass-Through of Core Environment Variables to Subtasks",
+            "description": "Ensure that environment variables set in a parent task or process are propagated to subtasks or child processes to maintain consistent configuration across task executions.",
+            "dependencies": [
+              1
+            ],
+            "details": "Implement or configure the system to propagate environment variables automatically to subtasks, similar to exporting variables in Makefiles or using global environment settings. Provide mechanisms to override or extend variables in subtasks if needed.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Implement --config Flag for Custom Configuration File Support",
+            "description": "Add support for a --config command-line flag that allows users to specify a custom configuration file path to load environment variables and settings from.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Parse the --config flag input to load environment variables and configuration from the specified file, overriding defaults or environment settings as appropriate. Ensure validation is applied to the loaded configuration and that the system gracefully handles missing or malformed config files.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Create Installation Command Feature",
+        "description": "Implement --install command that creates and configures the byobu status script automatically",
+        "details": "Add --install CLI flag that creates ~/.byobu/bin/60_ccusage script with proper shebang and ccusage-byobu call. Check if byobu bin directory exists, create if needed. Generate script content that handles stderr suppression (2>/dev/null || echo \"\"). Make script executable with chmod +x. Support custom refresh intervals via CCUSAGE_BYOBU_REFRESH environment variable (changes filename like 30_ccusage). Add --uninstall flag to remove the script. Provide user feedback on installation success/failure.",
+        "testStrategy": "Test installation on clean system, verify script creation and permissions, test custom refresh intervals, validate uninstall functionality, test error handling for permission issues",
+        "priority": "high",
+        "dependencies": [
+          5
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Script Creation",
+            "description": "Develop the core installation script that handles the main installation logic, including file copying, configuration, and user feedback.",
+            "dependencies": [],
+            "details": "Write a robust script that includes error handling, logging, and supports silent or interactive modes as needed. Follow best practices for scripting installation processes, such as avoiding hardcoded sensitive data and enabling verbose logging for troubleshooting.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Directory Checks and Creation",
+            "description": "Implement checks within the script to verify the existence of required directories and create them if they do not exist.",
+            "dependencies": [
+              1
+            ],
+            "details": "Ensure the script verifies necessary directories before installation proceeds, creating missing directories with appropriate permissions to avoid runtime errors.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Permission Setting",
+            "description": "Add functionality to set correct permissions on installed files and directories to ensure proper access control.",
+            "dependencies": [
+              2
+            ],
+            "details": "Incorporate permission management in the script to assign suitable user and group permissions, following security best practices to avoid unauthorized access or privilege escalation.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Refresh Interval Support",
+            "description": "Integrate support for refresh intervals to allow periodic updates or checks during the installation or post-installation process.",
+            "dependencies": [
+              1
+            ],
+            "details": "Design the script to support configurable refresh intervals, enabling it to perform periodic tasks such as status updates, reconfiguration, or health checks without manual intervention.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Uninstall Functionality",
+            "description": "Develop an uninstall script or module that cleanly removes installed components and restores the system to its pre-installation state.",
+            "dependencies": [
+              1,
+              2,
+              3
+            ],
+            "details": "Ensure the uninstall process removes all installed files, directories, and reverts permission changes. It should handle errors gracefully and leave no residual data, complying with best practices for clean uninstallation.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Handle Multiple Active Sessions",
+        "description": "Implement logic to handle multiple concurrent Claude Code sessions gracefully",
+        "details": "Parse JSON output to identify all active sessions (isActive == true). Implement strategy for multiple sessions: show most recent/active, aggregate costs, or rotate display. Calculate combined usage metrics if showing aggregated view. Add indicator when multiple sessions are active (e.g., '+2' suffix). Ensure display remains within character limit. Consider priority based on usage level or activity recency.",
+        "testStrategy": "Test with 0, 1, 2, and 3+ active sessions, verify aggregation logic, test session prioritization, validate character limit compliance with multiple sessions",
+        "priority": "medium",
+        "dependencies": [
+          6
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Parse Multiple Sessions Data",
+            "description": "Develop logic to parse and manage data from multiple concurrent sessions, ensuring accurate extraction and storage of session details.",
+            "dependencies": [],
+            "details": "Implement data structures and parsing algorithms to handle multiple session inputs concurrently, maintaining session identifiers, timestamps, and relevant metadata.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement Display Strategies for Sessions",
+            "description": "Create display mechanisms to present session data using different strategies: most recent session, aggregate view, and rotating display of sessions.",
+            "dependencies": [
+              1
+            ],
+            "details": "Design UI components or output formats that can switch between showing the most recent session, aggregating data across sessions, or rotating through sessions in a timed or triggered manner.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Calculate Usage Metrics Across Sessions",
+            "description": "Develop algorithms to compute usage metrics such as session duration, frequency, concurrency, and aggregate statistics from parsed session data.",
+            "dependencies": [
+              1
+            ],
+            "details": "Define and implement metric calculations that can be applied per session and across multiple sessions to support display strategies and performance analysis.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Format Display Output Within UI Constraints",
+            "description": "Implement formatting logic to ensure session data and metrics are displayed clearly and concisely within given UI or output limits, handling truncation, pagination, or summarization as needed.",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "Apply formatting rules and constraints to session displays, balancing detail and readability, and integrating usage metrics into the final presentation.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Create Curl Installer Script",
+        "description": "Develop the hosted curl installer script for one-command installation",
+        "details": "Create install-byobu.sh script with prerequisite checks (byobu, npm, node). Implement interactive configuration prompts: Claude plan type selection (free/pro/team/enterprise), custom Claude config directory, refresh interval customization. Install ccusage-byobu globally via npm. Call ccusage-byobu --install to create byobu script. Save configuration to shell profile (~/.bashrc). Add error handling and rollback on failure. Include progress indicators and success messages. Test on Ubuntu, macOS, and other common platforms.",
+        "testStrategy": "Test installation on clean VMs for Ubuntu and macOS, verify all configuration options work, test rollback functionality, validate shell profile modifications, test with existing installations",
+        "priority": "high",
+        "dependencies": [
+          6
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Perform Prerequisite Checks",
+            "description": "Verify that all necessary system requirements and dependencies are met before proceeding with the installation.",
+            "dependencies": [],
+            "details": "Check for required software versions, environment variables, permissions, and system compatibility to ensure the installer can run successfully.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement Interactive Prompts",
+            "description": "Create user-friendly interactive prompts to gather configuration options and preferences during installation.",
+            "dependencies": [
+              1
+            ],
+            "details": "Design prompts that guide users through choices such as installation paths, feature selection, and confirmation steps, ensuring clarity and ease of use.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Handle Global npm Installation",
+            "description": "Manage the installation of the package globally using npm, ensuring proper permissions and environment setup.",
+            "dependencies": [
+              2
+            ],
+            "details": "Invoke npm commands to install the package globally, handle potential permission issues, and verify successful installation.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Invoke Installation Command",
+            "description": "Execute the main installation command that performs the core setup tasks.",
+            "dependencies": [
+              3
+            ],
+            "details": "Run the installation script or command with appropriate arguments, monitor progress, and capture output for logging and troubleshooting.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Modify Shell Profile",
+            "description": "Update the user's shell profile to include necessary environment variables or path modifications.",
+            "dependencies": [
+              4
+            ],
+            "details": "Detect the user's shell type, append required export or path commands to the appropriate profile file (e.g., .bashrc, .zshrc), and reload the profile if needed.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Implement Error Handling and Rollback",
+            "description": "Develop mechanisms to handle errors gracefully and rollback changes if the installation fails.",
+            "dependencies": [
+              4
+            ],
+            "details": "Detect errors during installation steps, log detailed error information, revert any partial changes such as file modifications or installations, and notify the user with clear messages.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Add Error Handling and Graceful Degradation",
+        "description": "Implement comprehensive error handling for all failure scenarios",
+        "details": "Handle ccusage command not found, JSON parsing errors, permission issues, network timeouts. Implement graceful degradation: show cached data if available, fallback to simple format on errors, return empty string for byobu when critical errors occur. Add debug mode via CCUSAGE_BYOBU_DEBUG environment variable. Log errors to stderr (suppressed in byobu but useful for debugging). Add --test flag for troubleshooting installation issues.",
+        "testStrategy": "Test with ccusage not installed, test with corrupted JSON output, test file permission scenarios, simulate network issues, verify debug output functionality",
+        "priority": "medium",
+        "dependencies": [
+          7
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Handle Command Absence",
+            "description": "Implement detection and handling for cases where expected commands are missing or not provided, ensuring the system fails gracefully with informative messages.",
+            "dependencies": [],
+            "details": "Check for the presence of required commands early in the process. If a command is absent, log the event and return a clear, user-friendly error message to avoid silent failures.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement JSON Error Handling",
+            "description": "Detect and manage errors related to JSON parsing and serialization, including malformed input and unexpected data structures.",
+            "dependencies": [
+              1
+            ],
+            "details": "Use thorough error checking around JSON operations. Catch exceptions related to JSON parsing and provide descriptive error messages. Log errors for debugging and maintain program stability by restoring state if needed.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Manage Permission Issues",
+            "description": "Detect permission-related errors and handle them by providing clear feedback and fallback strategies where possible.",
+            "dependencies": [
+              1
+            ],
+            "details": "Check permissions before executing sensitive operations. If permission is denied, log the incident and return a user-friendly message explaining the issue and possible next steps.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Handle Network Timeouts",
+            "description": "Implement detection and recovery mechanisms for network timeout errors to maintain application responsiveness and reliability.",
+            "dependencies": [
+              1
+            ],
+            "details": "Set appropriate timeout thresholds for network requests. Catch timeout exceptions, log detailed information, and implement retry or fallback logic to ensure graceful degradation of service.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Implement Debug and Test Modes",
+            "description": "Create debug and test modes to facilitate error diagnosis and validation of error handling mechanisms.",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "details": "Add configurable debug mode to output detailed logs and error information. Develop test mode to simulate various error scenarios including command absence, JSON errors, permission issues, and network timeouts to verify robustness.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "title": "Optimize Performance and Caching",
+        "description": "Implement performance optimizations and smart caching to minimize resource usage",
+        "details": "Implement lightweight caching to avoid repeated ccusage calls within short intervals. Cache parsed JSON data for 10-15 seconds to handle multiple byobu refreshes. Optimize JSON parsing performance. Add lazy loading for non-critical features. Minimize startup time for NPX usage. Consider async/await patterns for better performance. Profile memory usage and optimize for long-running sessions.",
+        "testStrategy": "Benchmark startup time with and without optimizations, test caching behavior with rapid refresh intervals, profile memory usage over extended periods, validate cache invalidation logic",
+        "priority": "medium",
+        "dependencies": [
+          9
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Caching Strategy",
+            "description": "Design and implement an effective caching strategy including cache placement, TTL settings, cache invalidation, and security considerations to improve application performance.",
+            "dependencies": [],
+            "details": "Identify frequently accessed data to cache, choose appropriate cache layers (application-level, CDN, database-level), set TTL for cache keys, implement cache invalidation policies, and ensure security by encrypting cached data and using secure protocols.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Optimize JSON Parsing",
+            "description": "Improve the efficiency of JSON parsing in the application to reduce processing time and resource consumption.",
+            "dependencies": [],
+            "details": "Analyze current JSON parsing methods, implement faster parsing libraries or techniques, and optimize data structures to minimize parsing overhead.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Implement Lazy Loading Features",
+            "description": "Develop and integrate lazy loading mechanisms to defer loading of non-critical resources until they are needed, enhancing initial load performance.",
+            "dependencies": [],
+            "details": "Identify components or data suitable for lazy loading, implement lazy loading patterns in the application, and test to ensure smooth user experience without blocking critical rendering paths.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Conduct Performance Profiling and Analysis",
+            "description": "Profile the application to identify performance bottlenecks and validate the impact of caching, JSON parsing optimization, and lazy loading implementations.",
+            "dependencies": [
+              1,
+              2,
+              3
+            ],
+            "details": "Use profiling tools to measure cache hit/miss ratios, JSON parsing times, and load times before and after optimizations; analyze results to guide further improvements.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "title": "Create Comprehensive Documentation",
+        "description": "Develop complete documentation including README, installation guides, and troubleshooting",
+        "details": "Create detailed README.md with installation methods (curl, npm global, npx), usage examples, configuration options, troubleshooting guide. Document all environment variables with examples. Create CONTRIBUTING.md for development setup. Add inline code documentation with JSDoc. Include screenshots or ASCII art examples of status bar output. Document compatibility matrix for different byobu/tmux versions. Add FAQ section for common issues.",
+        "testStrategy": "Review documentation for completeness and accuracy, test all installation examples on clean systems, verify all configuration examples work, validate troubleshooting steps resolve common issues",
+        "priority": "medium",
+        "dependencies": [
+          10
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 12,
+        "title": "Package and Publish to NPM",
+        "description": "Prepare the package for NPM publication with proper versioning and metadata",
+        "details": "Configure package.json with proper metadata: description, keywords, author, license (MIT), repository URL, homepage. Set up npm scripts: test, build, prepublish hooks. Configure .npmignore to exclude development files. Set up semantic versioning strategy. Create npm publish workflow. Test package installation from NPM registry in clean environment. Configure npm 2FA for secure publishing. Add package badges and shields to README.",
+        "testStrategy": "Test npm pack locally, verify package contents, test installation from local tarball, validate all package.json metadata, test publishing to npm test registry first",
+        "priority": "high",
+        "dependencies": [
+          11
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 13,
+        "title": "Host Installer Script and Setup Infrastructure",
+        "description": "Set up hosting for the curl installer script and ensure reliable distribution",
+        "details": "Host install-byobu.sh on GitHub releases or ccusage.dev infrastructure. Set up raw.githubusercontent.com URL for curl access. Implement CDN or caching for global availability. Create versioned installer scripts for different releases. Set up monitoring for installer script availability. Add analytics to track installation success rates. Consider backup hosting options. Document the canonical installation URL.",
+        "testStrategy": "Test curl installer from different geographic locations, verify script accessibility and download speed, test versioned installer URLs, validate backup hosting functionality",
+        "priority": "medium",
+        "dependencies": [
+          8,
+          12
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Setup Hosting Infrastructure",
+            "description": "Establish the web hosting environment including server provisioning, configuration management, and scalability setup.",
+            "dependencies": [],
+            "details": "Provision servers using cloud or dedicated hardware, configure using tools like Ansible or Puppet for automation, and implement vertical and horizontal scaling strategies to ensure availability and performance under load.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Configure CDN and Caching",
+            "description": "Implement Content Delivery Network (CDN) and caching mechanisms to optimize content delivery and reduce server load.",
+            "dependencies": [
+              1
+            ],
+            "details": "Integrate a CDN service to distribute static and dynamic content globally, configure caching policies at the server and CDN level to improve load times and reduce bandwidth usage.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Implement Versioned Script Management",
+            "description": "Manage and deploy versioned scripts to ensure smooth updates and rollback capabilities.",
+            "dependencies": [
+              1
+            ],
+            "details": "Set up a version control system for scripts, automate deployment pipelines to handle versioned assets, and ensure backward compatibility and cache busting for client-side scripts.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Setup Monitoring and Analytics",
+            "description": "Deploy monitoring tools and analytics to track infrastructure health, performance, and user interactions.",
+            "dependencies": [
+              1
+            ],
+            "details": "Use monitoring solutions like Nagios, Zabbix, or Prometheus for server metrics, implement log analysis for diagnostics, and integrate analytics platforms to gather user behavior data and system usage statistics.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 14,
+        "title": "Implement Advanced Display Features",
+        "description": "Add advanced visual features like remaining time estimates and session indicators",
+        "details": "Enhance display format with remaining time estimates (Xh XXm format). Add session count indicator for multiple active sessions. Implement smart truncation for long displays. Add optional extended format mode. Consider animated progress indicators (if byobu supports). Add cost trend indicators (↑↓→). Implement smart rounding for cost display. Add optional timestamp for last update.",
+        "testStrategy": "Test time estimation accuracy, verify session count display, test truncation logic with various input lengths, validate all visual indicators render correctly across different terminals",
+        "priority": "low",
+        "dependencies": [
+          12
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Time Estimate Display",
+            "description": "Develop the feature to calculate and display estimated time for tasks or sessions, ensuring accuracy and clarity in the UI.",
+            "dependencies": [],
+            "details": "This subtask involves designing the logic to compute time estimates based on input data and integrating a visual component to show these estimates to users.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Create Session Count Indicator",
+            "description": "Build a visual indicator that shows the number of sessions, updating dynamically as sessions are added or removed.",
+            "dependencies": [
+              1
+            ],
+            "details": "This includes designing the UI element for session count and implementing the logic to track and update the count in real-time or on relevant events.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Develop Truncation Logic",
+            "description": "Implement logic to truncate long text or data fields to maintain UI cleanliness and readability without losing essential information.",
+            "dependencies": [
+              1
+            ],
+            "details": "This subtask requires defining truncation rules, handling edge cases, and ensuring truncated content can be expanded or viewed fully if needed.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Add Animated and Extended Visual Features",
+            "description": "Enhance the user interface with animations and extended visual elements to improve user experience and engagement.",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "This involves creating smooth animations for transitions, hover effects, and extended visuals that complement the time estimate and session count features.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 15,
+        "title": "Cross-Platform Testing and Compatibility",
+        "description": "Ensure compatibility across different operating systems and byobu versions",
+        "details": "Test on Ubuntu 20.04/22.04, macOS Big Sur/Monterey/Ventura, CentOS/RHEL, Arch Linux. Verify compatibility with different byobu versions (0.7x, 0.8x). Test with different Node.js versions (18, 19, 20, 21). Validate shell compatibility (bash, zsh, fish). Test in different terminal emulators. Document known compatibility issues and workarounds. Create CI/CD pipeline for automated testing across platforms.",
+        "testStrategy": "Set up automated testing on GitHub Actions for multiple OS/Node.js combinations, manual testing on physical machines, test with various terminal emulators and shells, validate installer behavior across platforms",
+        "priority": "medium",
+        "dependencies": [
+          13
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "OS Testing",
+            "description": "Test the software across different operating systems to ensure compatibility and consistent behavior.",
+            "dependencies": [],
+            "details": "Identify all target operating systems (e.g., Windows, macOS, Linux distributions). Set up test environments or use virtual machines/containers for each OS. Execute functional and integration tests on each OS to verify software stability and performance.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Byobu Version Compatibility Testing",
+            "description": "Verify that the software works correctly with different versions of Byobu terminal multiplexer.",
+            "dependencies": [
+              1
+            ],
+            "details": "List supported Byobu versions. Install each version in test environments. Run tests to confirm that the software integrates and functions properly with each Byobu version, checking for any version-specific issues.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Node.js Version Testing",
+            "description": "Ensure the software is compatible with multiple Node.js versions and that automated tests run correctly.",
+            "dependencies": [
+              1
+            ],
+            "details": "Select Node.js versions to support based on project requirements. Use tools like nvm or Docker containers to switch Node.js versions. Run automated tests using frameworks such as Jest, Mocha, or Node.js built-in test runner to validate functionality across versions[1][3][5].",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Shell and Terminal Emulator Validation",
+            "description": "Validate software behavior and compatibility with various shells and terminal emulators.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Identify common shells (bash, zsh, fish) and terminal emulators (gnome-terminal, iTerm2, Windows Terminal). Test software commands, scripts, and UI elements in these environments to ensure proper execution and display.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "CI/CD Pipeline Setup",
+            "description": "Configure continuous integration and continuous deployment pipelines to automate testing and deployment processes.",
+            "dependencies": [
+              3
+            ],
+            "details": "Set up CI/CD tools (e.g., Jenkins, GitHub Actions, Buddy) to automate Node.js test execution and deployment. Configure pipeline steps to install dependencies, run tests, and deploy if tests pass. Ensure Node.js version and environment consistency in the pipeline[5].",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-06-23T22:21:54.073Z",
+      "updated": "2025-06-23T22:21:54.073Z",
+      "description": "Tasks for master context"
+    }
+  }
+}
