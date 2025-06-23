@@ -1,0 +1,349 @@
+# Overview
+The byobu ccusage integration provides real-time Claude Code token usage statistics directly in the byobu status bar. This eliminates the need for developers to context-switch or run separate commands to monitor their Claude Code usage during active development sessions. The integration will automatically detect active Claude Code sessions and display relevant usage metrics, helping developers manage their token consumption effectively.
+
+# Core Features
+## Live Token Usage Display
+- Real-time display of current token usage for active Claude Code sessions
+- Automatic detection of active sessions using `ccusage blocks --json --offline`
+- Filter and display only sessions where `isActive == true`
+- Refresh interval configurable between 30-60 seconds to balance freshness with performance
+
+## Visual Status Indicators
+- Progress bar showing remaining token allocation (similar to tmux example)
+- Color-coded usage levels:
+  - Green: 0-60% usage
+  - Yellow: 60-85% usage  
+  - Red: 85-100% usage
+- Display format: "CC: $X.XX [████░░░░░░] 2h30m"
+  - Current cost in USD
+  - Visual progress bar
+  - Remaining time estimate
+
+## Installation and Configuration
+### Quick Install via Curl
+- One-line installation: `curl -fsSL https://ccusage.dev/install-byobu.sh | bash`
+- Automatically detects and configures byobu
+- Creates wrapper script in `$HOME/.byobu/bin/`
+- Handles NPM package installation
+
+### NPM Package Options
+- **Global install**: `npm install -g ccusage-byobu`
+- **NPX (no install)**: Use directly with `npx ccusage-byobu`
+- **Local install**: Add to project dependencies
+
+### Configuration
+- Environment variables for customization
+- No configuration files needed - sensible defaults
+- Optional `.ccusage-byobu` config file for advanced users
+
+# User Experience
+## User Personas
+- **Active Claude Code Users**: Developers who frequently use Claude Code for extended coding sessions
+- **Token-Conscious Developers**: Users who need to monitor usage to stay within budgets
+- **Multi-Session Users**: Developers running multiple Claude Code instances simultaneously
+
+## Key User Flows
+1. **Quick Install Flow (Recommended)**:
+   - Run: `curl -fsSL https://raw.githubusercontent.com/adawalli/ccusage-byobu/main/install-byobu.sh | bash`
+   - Script auto-detects byobu and creates necessary files
+   - Restart byobu or press F5 to see status
+
+2. **Manual NPM Install Flow**:
+   - Install: `npm install -g ccusage-byobu`
+   - Create wrapper: `ccusage-byobu --install`
+   - Enable in byobu (F9 menu if needed)
+
+3. **Try Without Installing**:
+   - Create script: `echo '#!/usr/bin/env npx ccusage-byobu' > ~/.byobu/bin/60_ccusage && chmod +x ~/.byobu/bin/60_ccusage`
+   - Restart byobu to activate
+
+4. **Usage Monitoring Flow**:
+   - User starts Claude Code session
+   - Byobu automatically detects and displays usage stats
+   - Stats update every 60 seconds
+   - Display disappears when no active sessions
+
+## UI/UX Considerations
+- Minimal status bar footprint (max 25 characters)
+- Non-intrusive updates (no flashing or animations)
+- Graceful handling of no active sessions
+- Clear visual hierarchy (cost → progress → time)
+
+# Technical Architecture
+## System Components
+### Byobu Status Script (`60_ccusage`)
+- Location: `$HOME/.byobu/bin/60_ccusage`
+- Refresh interval: 60 seconds (configurable via filename)
+- Implementation: Node.js (consistent with tmux implementation)
+- Minimal wrapper that calls the NPM package
+
+### NPM Package (`ccusage-byobu`)
+- Standalone package published to NPM registry
+- Single dependency on ccusage core
+- Executable entry point for both CLI and programmatic use
+- Environment variable configuration support
+- Built-in `--install` command for setup
+
+### Curl Installer Script
+- Hosted at `https://raw.githubusercontent.com/adawalli/ccusage-byobu/main/install-byobu.sh`
+- Detects OS and byobu installation
+- Checks for Node.js/npm availability  
+- Installs ccusage-byobu globally or via npx wrapper
+- Creates and configures byobu status script
+- **Configuration prompts for accurate cost tracking:**
+  - Claude plan type selection (affects pricing calculations)
+  - Custom Claude config directory (`CLAUDE_CONFIG_DIR`)
+  - Pricing model preferences
+  - Refresh interval customization
+- Provides rollback on failure
+
+### Data Flow
+1. Byobu triggers script every 60 seconds
+2. Script executes `ccusage blocks --json --offline`
+3. Parse JSON output and filter for `isActive == true`
+4. Extract relevant metrics (cost, remaining time, usage percentage)
+5. Format output for status bar display
+6. Return formatted string to byobu
+
+## Data Models
+```json
+{
+  "activeBlock": {
+    "isActive": true,
+    "costUSD": 2.45,
+    "projection": {
+      "remainingMinutes": 150
+    },
+    "usage": {
+      "percentUsed": 35
+    }
+  }
+}
+```
+
+## APIs and Integrations
+- ccusage CLI: `blocks --json --offline` command
+- Byobu status notification system
+- Shell environment variables for configuration
+
+## Infrastructure Requirements
+- Byobu terminal multiplexer installed
+- Node.js (>= 18.0) and npm installed
+- Write access to `$HOME/.byobu/bin/`
+- Internet connection for installation (optional for npx usage)
+
+# Development Roadmap
+## MVP Requirements
+### Phase 1: Core NPM Package
+- Consider porting tmux implementation to byobu format
+- Parse ccusage JSON output  
+- Filter for active sessions
+- Display cost and remaining time
+- Publish as `ccusage-byobu` to NPM
+- Basic `--install` command
+
+### Phase 2: Visual Enhancements
+- Add progress bar visualization
+- Implement color coding based on usage
+- Handle multiple active sessions (show most active)
+- Environment variable configuration
+- Graceful error handling
+
+### Phase 3: Installer Infrastructure
+- Create curl installer script
+- Host installer on ccusage.dev (or GitHub)
+- Auto-detect system requirements
+- Support multiple installation methods
+- Add `--uninstall` command
+- Comprehensive installation docs
+
+## Future Enhancements
+### Phase 4: Configuration Management
+- Add configuration file support
+- Customizable refresh intervals
+- User-defined display formats
+- Threshold customization
+
+### Phase 5: Advanced Features
+- Support for multiple session display
+- Historical usage trends
+- Alert notifications for high usage
+- Integration with byobu's notification system
+
+### Phase 6: Polish and Optimization
+- Performance optimizations
+- Comprehensive error handling
+- Documentation and examples
+- Cross-platform compatibility testing
+
+# Logical Dependency Chain
+1. **Foundation**: Port tmux script to work with byobu's status system - critically analyze existing tmux implemtation for any bad logic (https://github.com/yuki-yano/dotfiles/blob/main/bin/tmux-status-ccusage)
+2. **NPM Package**: Create standalone package with proper bin configuration
+3. **Display Logic**: Format output for byobu status bar requirements
+4. **Visual Features**: Add progress bars and color coding
+5. **Installation**: Build --install command and wrapper script creation
+6. **Curl Installer**: Create hosted installer script for one-line setup
+7. **Configuration**: Add environment variables and optional config file
+8. **Advanced Features**: Multi-session support and customization
+
+# Risks and Mitigations
+## Technical Challenges
+### Node.js Dependency
+- **Risk**: Users may not have Node.js installed
+- **Mitigation**: Curl installer checks and provides installation guidance
+
+### NPX Performance
+- **Risk**: NPX approach may have slower startup time
+- **Mitigation**: Recommend global install for regular users, npx for trying
+
+### Byobu Compatibility
+- **Risk**: Different byobu versions may have varying requirements
+- **Mitigation**: Test on multiple versions, provide compatibility matrix
+- Note: This one is low priority - we are striving for simplicity, so this is not something we will attempt for MVP
+
+### Cross-Platform Support
+- **Risk**: Path differences between Linux/macOS
+- **Mitigation**: Installer script handles platform detection
+
+## Figuring out the MVP
+### Feature Scope
+- **Risk**: Over-engineering the initial version
+- **Mitigation**: Focus on single active session display first
+
+### User Adoption
+- **Risk**: Complex installation may deter users
+- **Mitigation**: One-command installation, clear documentation
+
+## Resource Constraints
+### Single Implementation Strategy
+- **Risk**: Node.js-only approach may exclude some users
+- **Mitigation**: Node.js is already required by ccusage, so no new dependency
+
+### Installer Hosting
+- **Risk**: Need to host and maintain installer script
+- **Mitigation**: Use GitHub releases or existing ccusage.dev infrastructure
+
+### Maintenance Burden
+- **Risk**: Multiple installation methods to support
+- **Mitigation**: Common core package, different wrappers only
+
+# Appendix
+## Research Findings
+### Byobu Status Script Requirements
+- Scripts must be placed in `$HOME/.byobu/bin/`
+- Naming format: `NN_NAME` where NN is refresh interval in seconds
+- Output should be concise (stdout only, stderr discarded)
+- Minimum refresh interval: 5 seconds (recommend 30-60 for this use case)
+
+### Existing tmux Implementation Analysis
+- Uses Node.js for JSON parsing
+- Calculates cost per hour and remaining time
+- Creates visual progress bar with Unicode characters
+- Handles no active session gracefully
+- Approximately 50 lines of code
+
+### Technical Specifications
+#### NPM Package Structure
+```json
+{
+  "name": "ccusage-byobu",
+  "version": "1.0.0",
+  "bin": {
+    "ccusage-byobu": "./bin/ccusage-byobu.js"
+  },
+  "main": "./lib/index.js",
+  "dependencies": {
+    "ccusage": "^latest"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
+```
+
+#### Byobu Status Script (Auto-generated)
+```bash
+#!/bin/bash
+# ~/.byobu/bin/60_ccusage (created by installer)
+ccusage-byobu 2>/dev/null || echo ""
+```
+
+#### Curl Installer Script Outline
+```bash
+#!/bin/bash
+# install-byobu.sh
+set -e
+
+# Check prerequisites
+command -v byobu >/dev/null || { echo "Byobu not found"; exit 1; }
+command -v npm >/dev/null || { echo "npm not found"; exit 1; }
+
+# Interactive configuration
+echo "📊 ccusage-byobu Setup"
+echo "====================="
+
+# Claude plan detection/selection
+echo "Select your Claude plan type:"
+echo "1) Free/Trial"
+echo "2) Pro (Pay-as-you-go)"  
+echo "3) Team"
+echo "4) Enterprise"
+read -p "Choice [2]: " plan_choice
+case ${plan_choice:-2} in
+  1) export CLAUDE_PLAN_TYPE="free" ;;
+  2) export CLAUDE_PLAN_TYPE="pro" ;;
+  3) export CLAUDE_PLAN_TYPE="team" ;;
+  4) export CLAUDE_PLAN_TYPE="enterprise" ;;
+esac
+
+# Custom Claude config directory
+read -p "Custom Claude config directory [auto-detect]: " config_dir
+if [[ -n "$config_dir" ]]; then
+  export CLAUDE_CONFIG_DIR="$config_dir"
+fi
+
+# Refresh interval
+read -p "Status refresh interval in seconds [60]: " refresh
+export CCUSAGE_BYOBU_REFRESH="${refresh:-60}"
+
+# Install package
+npm install -g ccusage-byobu
+
+# Create byobu script with configuration
+ccusage-byobu --install
+
+# Save configuration to shell profile
+echo "# ccusage-byobu configuration" >> ~/.bashrc
+echo "export CLAUDE_PLAN_TYPE=\"$CLAUDE_PLAN_TYPE\"" >> ~/.bashrc
+[[ -n "$CLAUDE_CONFIG_DIR" ]] && echo "export CLAUDE_CONFIG_DIR=\"$CLAUDE_CONFIG_DIR\"" >> ~/.bashrc
+echo "export CCUSAGE_BYOBU_REFRESH=\"${CCUSAGE_BYOBU_REFRESH}\"" >> ~/.bashrc
+
+echo "✅ ccusage-byobu installed! Restart byobu to see status."
+echo "💡 Configuration saved to ~/.bashrc"
+```
+
+#### Environment Variable Configuration
+```bash
+# ccusage-byobu specific configuration
+export CCUSAGE_BYOBU_FORMAT="compact"    # or "full"
+export CCUSAGE_BYOBU_COLORS="auto"       # true/false/auto
+export CCUSAGE_BYOBU_THRESHOLD="80"      # percentage for color changes
+export CCUSAGE_BYOBU_REFRESH="60"        # seconds (changes filename)
+
+# ccusage core configuration (affects cost calculations)
+export CLAUDE_CONFIG_DIR="/custom/path"  # Custom Claude config directory
+export CCUSAGE_DATA_DIR="/path/to/data"  # Multiple paths: /path1,/path2
+export CLAUDE_PLAN_TYPE="pro"            # plan types: free, pro, team, enterprise
+export CLAUDE_API_KEY="your_key"         # For live data fetching (optional)
+
+# Pricing configuration (if custom pricing needed)
+export CCUSAGE_SONNET_RATE="0.003"       # Custom rate per 1K tokens
+export CCUSAGE_OPUS_RATE="0.015"         # Custom rate per 1K tokens
+export CCUSAGE_CACHE_DISCOUNT="0.9"      # Cache read discount multiplier
+```
+
+#### Output Format Specification
+- Maximum length: 25 characters
+- Format: `CC: $X.XX [████░░░░░░] Xh XXm`
+- Colors: Use byobu's color codes (#[fg=green], etc.)
+- Fallback: Empty string when no sessions (cleaner than "No active CC")
