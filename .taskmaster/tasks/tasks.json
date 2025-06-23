@@ -916,11 +916,57 @@
             "testStrategy": ""
           }
         ]
+      },
+      {
+        "id": 16,
+        "title": "Configure Husky Pre-commit Hooks for Code Quality",
+        "description": "Set up Husky with pre-commit hooks to enforce code quality standards including linting, formatting, and basic tests before allowing commits",
+        "details": "Install Husky as a dev dependency (npm install --save-dev husky). Initialize Husky with npx husky init to create .husky directory. Configure pre-commit hook in .husky/pre-commit to run: 1) ESLint for JavaScript linting (npm run lint), 2) Prettier for code formatting (npm run format:check), 3) Basic test suite (npm test). Set up lint-staged to only check modified files for better performance. Configure .lintstagedrc.json with patterns: '*.js': ['eslint --fix', 'prettier --write'], '*.json': ['prettier --write']. Add npm scripts in package.json: 'prepare': 'husky', 'lint': 'eslint .', 'format:check': 'prettier --check .', 'format': 'prettier --write .'. Configure commit-msg hook to validate commit message format (conventional commits). Add bypass instructions to documentation for emergency commits (--no-verify flag). Ensure hooks work with both npm and yarn package managers.",
+        "testStrategy": "Test pre-commit hook by intentionally introducing linting errors and attempting commit, verify hook prevents commit with clear error messages. Test with properly formatted code to ensure commits succeed. Validate lint-staged only checks changed files by modifying single file and observing hook execution time. Test commit-msg hook with invalid and valid commit messages. Verify hooks work after fresh clone and npm install. Test bypass mechanism with --no-verify flag for emergency situations. Validate performance impact is acceptable (hooks complete within 10 seconds for typical commits).",
+        "status": "done",
+        "dependencies": [
+          2
+        ],
+        "priority": "medium",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up Husky in the project",
+            "description": "Install Husky as a development dependency, initialize it to create the .husky directory and pre-commit hook, and configure the prepare script in package.json to enable Husky hooks.",
+            "dependencies": [],
+            "details": "Run `npm install husky --save-dev` to install Husky. Then run `npx husky install` to create the .husky folder. Add a prepare script in package.json: \"prepare\": \"husky install\". Initialize Husky hooks with `npx husky add .husky/pre-commit \"npm test\"` or a custom lint command. This setup enables Husky to run git hooks efficiently and manage pre-commit scripts.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Configure lint-staged and commit-msg validation",
+            "description": "Set up lint-staged to run linters and formatters on staged files before commit, and configure commit-msg hook to validate commit messages using commitlint or similar tools.",
+            "dependencies": [
+              1
+            ],
+            "details": "Install lint-staged and commitlint as dev dependencies. Add lint-staged configuration in package.json or a separate config file to specify commands for staged files (e.g., lint and format). Add a commit-msg hook with Husky: `npx husky add .husky/commit-msg 'npx --no-install commitlint --edit \"$1\"'` to enforce commit message standards. This ensures code quality and commit message consistency before commits are accepted.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Document bypass procedures for Husky hooks",
+            "description": "Create clear documentation explaining how to bypass Husky hooks when necessary, including environment variables or git options to skip hooks.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Document common methods to bypass Husky hooks, such as using `git commit --no-verify` to skip hooks temporarily. Explain scenarios where bypassing might be justified and caution about potential risks. Include instructions in the project README or a dedicated CONTRIBUTING.md file to inform developers about these procedures and best practices.",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
       }
     ],
     "metadata": {
       "created": "2025-06-23T22:21:54.073Z",
-      "updated": "2025-06-23T23:12:34.858Z",
+      "updated": "2025-06-23T23:22:35.651Z",
       "description": "Tasks for master context"
     }
   }
