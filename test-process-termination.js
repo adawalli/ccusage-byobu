@@ -12,33 +12,33 @@ import { dirname, join } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Test function to run ccusage-byobu with cache disabled
+// Test function to run ccusage-byobu with different cache settings
 async function testProcessTermination() {
   console.log('Testing process termination behavior...\n');
 
-  // Test 1: Run with cache disabled (should terminate quickly)
-  console.log('Test 1: Running with CCUSAGE_DISABLE_CACHE=1');
-  const cacheDisabledResult = await runWithTimeout({
-    env: { CCUSAGE_DISABLE_CACHE: '1' },
+  // Test 1: Run with default behavior (cache disabled, should terminate quickly)
+  console.log('Test 1: Running with default settings (cache disabled)');
+  const defaultBehaviorResult = await runWithTimeout({
+    env: {},
     timeout: 5000, // 5 second timeout
-    testName: 'cache disabled',
+    testName: 'default (cache disabled)',
   });
 
   // Test 2: Run with cache enabled (for comparison)
-  console.log('\nTest 2: Running with cache enabled');
+  console.log('\nTest 2: Running with CCUSAGE_ENABLE_CACHE=1');
   const cacheEnabledResult = await runWithTimeout({
-    env: {},
+    env: { CCUSAGE_ENABLE_CACHE: '1' },
     timeout: 5000, // 5 second timeout
     testName: 'cache enabled',
   });
 
-  // Test 3: Run multiple times in succession with cache disabled
-  console.log('\nTest 3: Running multiple times with cache disabled (succession test)');
+  // Test 3: Run multiple times in succession with default settings
+  console.log('\nTest 3: Running multiple times with default settings (succession test)');
   const promises = [];
   for (let i = 0; i < 3; i++) {
     promises.push(
       runWithTimeout({
-        env: { CCUSAGE_DISABLE_CACHE: '1' },
+        env: {},
         timeout: 5000,
         testName: `succession ${i + 1}`,
       })
@@ -49,7 +49,7 @@ async function testProcessTermination() {
   // Summary
   console.log('\n=== Test Results Summary ===');
   console.log(
-    `Cache disabled test: ${cacheDisabledResult.success ? '✅ PASSED' : '❌ FAILED'} (${cacheDisabledResult.duration}ms)`
+    `Default behavior test: ${defaultBehaviorResult.success ? '✅ PASSED' : '❌ FAILED'} (${defaultBehaviorResult.duration}ms)`
   );
   console.log(
     `Cache enabled test: ${cacheEnabledResult.success ? '✅ PASSED' : '❌ FAILED'} (${cacheEnabledResult.duration}ms)`
@@ -80,10 +80,10 @@ async function testProcessTermination() {
   }
 
   return {
-    cacheDisabled: cacheDisabledResult,
+    defaultBehavior: defaultBehaviorResult,
     cacheEnabled: cacheEnabledResult,
     succession: successionResults,
-    overallSuccess: cacheDisabledResult.success && successionSuccess,
+    overallSuccess: defaultBehaviorResult.success && successionSuccess,
   };
 }
 
