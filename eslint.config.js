@@ -12,6 +12,10 @@ export default [
         process: 'readonly',
         Buffer: 'readonly',
         global: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
       },
     },
     rules: {

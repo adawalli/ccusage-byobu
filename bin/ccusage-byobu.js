@@ -1,37 +1,39 @@
 #!/usr/bin/env node
 
-import { main, testInstallation } from '../lib/index.js';
-import { displayConfig, loadConfigFile } from '../lib/config.js';
-import { install, uninstall, uninstallAll } from '../lib/install.js';
+import { main as runMain } from '../lib/index.js';
+import { loadConfigFile } from '../lib/config.js';
 
-// Parse command line arguments
-const args = process.argv.slice(2);
-let configFile = null;
-let showConfig = false;
-let installMode = false;
-let uninstallMode = false;
-let uninstallAllMode = false;
-let refreshInterval = null;
-let testMode = false;
+async function main() {
+  const startupStartTime = process.hrtime.bigint();
 
-// Parse arguments
-for (const arg of args) {
-  if (arg === '--config') {
-    showConfig = true;
-  } else if (arg.startsWith('--config=')) {
-    configFile = arg.split('=')[1];
-  } else if (arg === '--install') {
-    installMode = true;
-  } else if (arg === '--uninstall') {
-    uninstallMode = true;
-  } else if (arg === '--uninstall-all') {
-    uninstallAllMode = true;
-  } else if (arg.startsWith('--refresh=')) {
-    refreshInterval = arg.split('=')[1];
-  } else if (arg === '--test') {
-    testMode = true;
-  } else if (arg === '--help' || arg === '-h') {
-    console.log(`ccusage-byobu - A CLI tool for visualizing Claude Code usage metrics
+  // Parse command line arguments
+  const args = process.argv.slice(2);
+  let configFile = null;
+  let showConfig = false;
+  let installMode = false;
+  let uninstallMode = false;
+  let uninstallAllMode = false;
+  let refreshInterval = null;
+  let testMode = false;
+
+  // Parse arguments
+  for (const arg of args) {
+    if (arg === '--config') {
+      showConfig = true;
+    } else if (arg.startsWith('--config=')) {
+      configFile = arg.split('=')[1];
+    } else if (arg === '--install') {
+      installMode = true;
+    } else if (arg === '--uninstall') {
+      uninstallMode = true;
+    } else if (arg === '--uninstall-all') {
+      uninstallAllMode = true;
+    } else if (arg.startsWith('--refresh=')) {
+      refreshInterval = arg.split('=')[1];
+    } else if (arg === '--test') {
+      testMode = true;
+    } else if (arg === '--help' || arg === '-h') {
+      console.log(`ccusage-byobu - A CLI tool for visualizing Claude Code usage metrics
 
 Usage:
   ccusage-byobu [options]
@@ -57,61 +59,115 @@ Examples:
   ccusage-byobu --uninstall        # Remove byobu status script
   ccusage-byobu --uninstall-all    # Remove all ccusage scripts
   ccusage-byobu --config           # Show configuration`);
-    process.exit(0);
+      process.exit(0);
+    }
   }
-}
 
-// Load configuration file if specified (do this first)
-if (configFile) {
-  try {
-    loadConfigFile(configFile);
-  } catch (error) {
-    console.error(`Error loading config file "${configFile}":`, error.message);
-    process.exit(1);
+  // Load configuration file if specified (do this first)
+  if (configFile) {
+    try {
+      loadConfigFile(configFile);
+    } catch (error) {
+      console.error(`Error loading config file "${configFile}":`, error.message);
+      process.exit(1);
+    }
   }
-}
 
-// Handle install/uninstall modes
-if (installMode) {
-  const options = {};
-  if (refreshInterval) {
-    options.refreshInterval = refreshInterval;
+  // Handle install/uninstall modes
+  if (installMode) {
+    try {
+      const { install } = await import('../lib/install.js');
+      const options = {};
+      if (refreshInterval) {
+        options.refreshInterval = refreshInterval;
+      }
+      const success = install(options);
+      process.exit(success ? 0 : 1);
+    } catch (error) {
+      console.error('Failed to load install module:', error.message);
+      process.exit(1);
+    }
   }
-  const success = install(options);
-  process.exit(success ? 0 : 1);
-}
 
-if (uninstallMode) {
-  const options = {};
-  if (refreshInterval) {
-    options.refreshInterval = refreshInterval;
+  if (uninstallMode) {
+    try {
+      const { uninstall } = await import('../lib/install.js');
+      const options = {};
+      if (refreshInterval) {
+        options.refreshInterval = refreshInterval;
+      }
+      const success = uninstall(options);
+      process.exit(success ? 0 : 1);
+    } catch (error) {
+      console.error('Failed to load install module:', error.message);
+      process.exit(1);
+    }
   }
-  const success = uninstall(options);
-  process.exit(success ? 0 : 1);
-}
 
-if (uninstallAllMode) {
-  const result = uninstallAll();
-  process.exit(result.success ? 0 : 1);
-}
+  if (uninstallAllMode) {
+    try {
+      const { uninstallAll } = await import('../lib/install.js');
+      const result = uninstallAll();
+      process.exit(result.success ? 0 : 1);
+    } catch (error) {
+      console.error('Failed to load install module:', error.message);
+      process.exit(1);
+    }
+  }
 
-// Show configuration if requested (do this after loading)
-if (showConfig) {
-  console.log(displayConfig());
-  process.exit(0);
-}
+  // Show configuration if requested (do this after loading)
+  if (showConfig) {
+    try {
+      const { displayConfig } = await import('../lib/config.js');
+      console.log(displayConfig());
+      process.exit(0);
+    } catch (error) {
+      console.error('Failed to load config module:', error.message);
+      process.exit(1);
+    }
+  }
 
-// Handle test mode
-if (testMode) {
-  testInstallation()
-    .then(() => process.exit(0))
-    .catch((error) => {
+  // Handle test mode
+  if (testMode) {
+    try {
+      const { testInstallation } = await import('../lib/index.js');
+      await testInstallation();
+      process.exit(0);
+    } catch (error) {
       console.error('Test failed:', error.message);
       process.exit(1);
-    });
-} else {
-  main().catch((error) => {
-    console.error('Error:', error.message);
-    process.exit(1);
-  });
+    }
+  } else {
+    try {
+      // Log startup time if debug mode is enabled
+      if (process.env.CCUSAGE_BYOBU_DEBUG) {
+        const { createTimer, getMemoryUsage } = await import('../lib/performance.js');
+        const startupTimer = createTimer();
+        startupTimer.startTime = startupStartTime;
+        startupTimer.stop();
+
+        const memoryAfterStartup = getMemoryUsage();
+        console.error(`Startup time: ${startupTimer.format()}`);
+        console.error(
+          `Startup memory: RSS ${memoryAfterStartup.rss.mb}MB, Heap ${memoryAfterStartup.heapUsed.mb}MB`
+        );
+
+        // Track lazy loading effectiveness
+        // Note: In ES modules, we can't easily track module count like CommonJS
+        // Instead, we measure the memory footprint which reflects loaded modules
+        console.error(`Module loading optimization: Lazy loading enabled`);
+      }
+
+      await runMain();
+    } catch (error) {
+      console.error('Error:', error.message);
+      process.exit(1);
+    }
+  }
 }
+
+// Run the main function
+main().catch((error) => {
+  console.error('Startup failed:', error.message);
+  process.exit(1);
+});

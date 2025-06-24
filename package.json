@@ -4,7 +4,8 @@
   "description": "A CLI tool for visualizing Claude Code usage metrics with byobu integration",
   "main": "./lib/index.js",
   "bin": {
-    "ccusage-byobu": "./bin/ccusage-byobu.js"
+    "ccusage-byobu": "./bin/ccusage-byobu.js",
+    "ccusage-byobu-benchmark": "./bin/ccusage-byobu-benchmark.js"
   },
   "scripts": {
     "build": "echo \"No build step required for this project\"",
@@ -34,7 +35,8 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "ccusage": "^15.2.0"
+    "ccusage": "^15.2.0",
+    "json-parse-even-better-errors": "^4.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
