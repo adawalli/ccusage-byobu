@@ -316,7 +316,8 @@ For large migrations or multi-step processes:
 
 ### Git Integration
 
-Task Master works well with `gh` CLI:
+- Do not ever add "🤖 Generated with Claude Code" or anything like this
+- Task Master works well with `gh` CLI:
 
 ```bash
 # Create PR for completed task
