@@ -1,9 +1,9 @@
 {
 	"meta": {
-		"generatedAt": "2025-06-24T21:31:37.141Z",
+		"generatedAt": "2025-06-24T22:11:29.419Z",
 		"tasksAnalyzed": 8,
-		"totalTasks": 18,
-		"analysisCount": 18,
+		"totalTasks": 19,
+		"analysisCount": 19,
 		"thresholdScore": 5,
 		"projectName": "Taskmaster",
 		"usedResearch": true
@@ -100,58 +100,66 @@
 		{
 			"taskId": 11,
 			"taskTitle": "Create Comprehensive Documentation",
-			"complexityScore": 5,
-			"recommendedSubtasks": 5,
-			"expansionPrompt": "Expand documentation into subtasks covering README creation, environment variable documentation, contributing guide, inline code documentation, and reference implementation attribution.",
-			"reasoning": "While documentation is less technically complex, it requires thoroughness and coverage of multiple aspects including user guides, developer instructions, and attribution. Dividing into clear documentation areas improves manageability."
+			"complexityScore": 7,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Break down the documentation task into subtasks covering README creation, installation guides for multiple methods, usage examples, environment variable documentation, troubleshooting guide, and FAQ section.",
+			"reasoning": "This task involves multiple detailed documentation components including technical writing, examples, compatibility matrices, and inline code comments, requiring coordination and thoroughness but no complex algorithmic work."
 		},
 		{
 			"taskId": 12,
 			"taskTitle": "Package and Publish to NPM",
 			"complexityScore": 6,
 			"recommendedSubtasks": 4,
-			"expansionPrompt": "Divide packaging and publishing into subtasks for configuring package metadata, setting up npm scripts, configuring .npmignore, and testing the publishing workflow.",
-			"reasoning": "Packaging involves multiple configuration and validation steps that must be done correctly to ensure smooth publishing and installation. It requires attention to detail and testing but is relatively straightforward."
+			"expansionPrompt": "Expand into subtasks for configuring package metadata, setting up npm scripts, creating .npmignore, and testing the publishing workflow including 2FA setup.",
+			"reasoning": "Packaging and publishing involves configuration, scripting, and testing steps that are well-defined but require attention to detail and validation to ensure smooth publishing and installation."
 		},
 		{
 			"taskId": 13,
 			"taskTitle": "Host Installer Script and Setup Infrastructure",
-			"complexityScore": 7,
+			"complexityScore": 8,
 			"recommendedSubtasks": 4,
-			"expansionPrompt": "Expand into subtasks for hosting infrastructure setup, CDN and caching configuration, versioned script management, and monitoring and analytics implementation.",
-			"reasoning": "Setting up hosting infrastructure with CDN, version control, and monitoring involves multiple technical components and coordination, making it moderately complex."
+			"expansionPrompt": "Divide into subtasks for hosting infrastructure setup, CDN and caching configuration, versioned script management, and monitoring plus analytics implementation.",
+			"reasoning": "This task requires infrastructure setup, global distribution optimization, version control, and monitoring, involving both technical deployment and operational considerations."
 		},
 		{
 			"taskId": 14,
 			"taskTitle": "Implement Advanced Display Features",
-			"complexityScore": 4,
+			"complexityScore": 5,
 			"recommendedSubtasks": 4,
-			"expansionPrompt": "Create subtasks for time estimate display, session count indicator, truncation logic, and animated/extended visual features.",
-			"reasoning": "These UI enhancements are individually manageable but require careful design and testing to ensure usability and compatibility, warranting moderate complexity."
+			"expansionPrompt": "Create subtasks for implementing time estimate display, session count indicator, truncation logic, and adding animated plus extended visual features.",
+			"reasoning": "While mostly UI/UX focused, this task involves multiple interdependent features requiring careful design and testing to ensure usability and correctness across terminals."
 		},
 		{
 			"taskId": 15,
 			"taskTitle": "Cross-Platform Testing and Compatibility",
-			"complexityScore": 7,
+			"complexityScore": 9,
 			"recommendedSubtasks": 5,
-			"expansionPrompt": "Expand testing into OS testing, Byobu version compatibility, Node.js version testing, shell and terminal emulator validation, and CI/CD pipeline setup.",
-			"reasoning": "Ensuring compatibility across multiple OSes, shells, Node.js versions, and terminal emulators requires extensive testing and automation setup, making it a complex and critical task."
+			"expansionPrompt": "Expand into subtasks for OS testing, Byobu version compatibility, Node.js version testing, shell and terminal emulator validation, and CI/CD pipeline setup.",
+			"reasoning": "Ensuring compatibility across multiple OSes, shells, Node versions, and terminal emulators is complex and requires extensive testing infrastructure and automation."
 		},
 		{
 			"taskId": 17,
 			"taskTitle": "Remove sudo usage from installer scripts",
-			"complexityScore": 6,
-			"recommendedSubtasks": 3,
-			"expansionPrompt": "Break down into subtasks for analyzing sudo usage, refactoring installation paths and permissions, and updating documentation and fallback mechanisms.",
-			"reasoning": "Refactoring installer scripts to remove sudo involves careful permission handling and user environment adjustments, which is moderately complex but focused in scope."
+			"complexityScore": 7,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Break down into subtasks for analyzing sudo usage, refactoring npm installs to user-local, updating PATH and environment configurations, modifying installer logic, and updating documentation.",
+			"reasoning": "Refactoring installer scripts to remove sudo involves careful handling of permissions, environment setup, fallback mechanisms, and thorough testing in restricted environments."
 		},
 		{
 			"taskId": 18,
 			"taskTitle": "Refactor Plan Offerings Throughout Codebase",
-			"complexityScore": 7,
-			"recommendedSubtasks": 4,
-			"expansionPrompt": "Divide into subtasks for codebase-wide search and update of plan references, updating validation and pricing logic, modifying API and database schemas, and testing plan transitions and analytics.",
-			"reasoning": "This task affects many parts of the codebase including logic, data models, UI, and analytics, requiring comprehensive updates and thorough testing, thus moderately high complexity."
+			"complexityScore": 8,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Divide into subtasks for searching and identifying plan references, updating constants and enums, refactoring logic and validation, modifying API and database schemas, updating UI and documentation, and implementing migration logic.",
+			"reasoning": "This task affects multiple layers of the codebase and requires comprehensive updates to logic, data models, UI, and backward compatibility, making it complex and error-prone."
+		},
+		{
+			"taskId": 19,
+			"taskTitle": "Fix process hanging issue by cleaning up cache timer",
+			"complexityScore": 4,
+			"recommendedSubtasks": 2,
+			"expansionPrompt": "Create subtasks for removing or conditionally disabling cache usage in byobu context and testing process termination behavior across environments.",
+			"reasoning": "The fix is focused on a specific technical issue related to process lifecycle and cache usage, requiring targeted code changes and validation but limited scope overall."
 		}
 	]
 }
