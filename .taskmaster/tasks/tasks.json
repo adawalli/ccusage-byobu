@@ -326,15 +326,15 @@
         "dependencies": [
           5
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
             "title": "Script Creation",
             "description": "Develop the core installation script that handles the main installation logic, including file copying, configuration, and user feedback.",
             "dependencies": [],
-            "details": "Write a robust script that includes error handling, logging, and supports silent or interactive modes as needed. Follow best practices for scripting installation processes, such as avoiding hardcoded sensitive data and enabling verbose logging for troubleshooting.",
-            "status": "pending",
+            "details": "Write a robust script that includes error handling, logging, and supports silent or interactive modes as needed. Follow best practices for scripting installation processes, such as avoiding hardcoded sensitive data and enabling verbose logging for troubleshooting.\n<info added on 2025-06-24T00:08:31.401Z>\nCompleted implementation of the core installation script with the following features:\n\n- Created lib/install.js module containing comprehensive install() and uninstall() functions for managing the byobu status script\n- Integrated CLI argument parsing in bin/ccusage-byobu.js to handle --install, --uninstall, and --refresh flags\n- Implemented detailed help system with usage instructions accessible via --help flag\n- Added robust error handling throughout the codebase using try/catch blocks with informative error messages\n- Enabled custom refresh interval configuration through both --refresh CLI flag and CCUSAGE_BYOBU_REFRESH environment variable\n- Ensured proper user feedback for all operations including success confirmations and failure diagnostics\n- Designed for both interactive terminal usage and programmatic integration\n- Followed Node.js best practices including proper exit codes, async/await patterns, and modular architecture\n</info added on 2025-06-24T00:08:31.401Z>",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -344,8 +344,8 @@
             "dependencies": [
               1
             ],
-            "details": "Ensure the script verifies necessary directories before installation proceeds, creating missing directories with appropriate permissions to avoid runtime errors.",
-            "status": "pending",
+            "details": "Ensure the script verifies necessary directories before installation proceeds, creating missing directories with appropriate permissions to avoid runtime errors.\n<info added on 2025-06-24T00:09:39.972Z>\nEnhanced directory checks and creation functionality:\n\n1. Added comprehensive validation to verify existing paths are actually directories\n2. Implemented proper directory creation with appropriate permissions (0o755)\n3. Added post-creation verification to ensure directory was created successfully\n4. Enhanced error handling with specific error codes (EACCES, ENOSPC)\n5. Provided detailed error messages for common failure scenarios\n6. Followed security best practices for permission management\n\nThe ensureByobuBinDir() function now:\n- Validates existing directories before proceeding\n- Creates missing directories with proper permissions recursively\n- Provides specific error feedback for permission and space issues\n- Follows defensive programming practices with verification steps\n</info added on 2025-06-24T00:09:39.972Z>",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -355,8 +355,8 @@
             "dependencies": [
               2
             ],
-            "details": "Incorporate permission management in the script to assign suitable user and group permissions, following security best practices to avoid unauthorized access or privilege escalation.",
-            "status": "pending",
+            "details": "Incorporate permission management in the script to assign suitable user and group permissions, following security best practices to avoid unauthorized access or privilege escalation.\n<info added on 2025-06-24T00:10:51.355Z>\nCompleted comprehensive permission setting functionality:\n\n1. Created setFilePermissions() utility function with robust error handling\n2. Added specific error handling for common permission issues (EACCES, ENOENT)\n3. Implemented permission verification after setting to ensure correctness\n4. Enhanced error messages with specific manual fix instructions\n5. Updated install function to use the new permission utility\n6. Added warning system for permission-related issues\n\nKey security improvements:\n- Proper file permissions (0o755) for executable scripts\n- Directory permissions (0o755) with secure defaults\n- Error handling prevents silent permission failures\n- Manual fix instructions provided when automatic setting fails\n- Permission verification ensures files are actually executable\n</info added on 2025-06-24T00:10:51.355Z>",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -366,8 +366,8 @@
             "dependencies": [
               1
             ],
-            "details": "Design the script to support configurable refresh intervals, enabling it to perform periodic tasks such as status updates, reconfiguration, or health checks without manual intervention.",
-            "status": "pending",
+            "details": "Design the script to support configurable refresh intervals, enabling it to perform periodic tasks such as status updates, reconfiguration, or health checks without manual intervention.\n<info added on 2025-06-24T00:12:23.039Z>\nEnhanced refresh interval support with comprehensive features:\n\n1. Added validateRefreshInterval() function with bounds checking (5-3600 seconds)\n2. Integrated validation into install/uninstall functions with user feedback\n3. Created listInstalledScripts() to show all scripts with different intervals\n4. Enhanced checkInstallation() to provide detailed status information\n5. Added support for both CLI --refresh flag and CCUSAGE_BYOBU_REFRESH env var\n6. Implemented proper error handling and fallback to defaults\n\nKey features implemented:\n- Refresh interval validation with reasonable bounds (5s minimum, 1h maximum)\n- Multiple script support allowing different refresh rates\n- Automatic script filename generation based on interval (e.g., \"30_ccusage\")\n- Environment variable support for default configuration\n- Comprehensive installation status checking\n- User-friendly error messages with guidance\n</info added on 2025-06-24T00:12:23.039Z>",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -379,8 +379,8 @@
               2,
               3
             ],
-            "details": "Ensure the uninstall process removes all installed files, directories, and reverts permission changes. It should handle errors gracefully and leave no residual data, complying with best practices for clean uninstallation.",
-            "status": "pending",
+            "details": "Ensure the uninstall process removes all installed files, directories, and reverts permission changes. It should handle errors gracefully and leave no residual data, complying with best practices for clean uninstallation.\n<info added on 2025-06-24T00:14:17.031Z>\nSuccessfully implemented comprehensive uninstall functionality with the following enhancements:\n\n1. Enhanced existing uninstall() function with improved error handling and detailed user feedback\n2. Created new uninstallAll() function to remove all ccusage scripts regardless of refresh interval\n3. Added --uninstall-all CLI flag for bulk removal operations\n4. Implemented intelligent script discovery to help users find and remove correct scripts when target not found\n5. Added informative feedback displaying remaining scripts after partial uninstall\n6. Enhanced error handling with specific messages for permission and file access errors\n\nKey features implemented:\n- Smart script discovery automatically suggests available scripts when target script not found\n- Comprehensive error handling for permission issues with actionable guidance\n- Clean uninstall process with verification and detailed user feedback\n- Bulk uninstall option enables removing all scripts at once\n- Detailed status reporting shows remaining installations after uninstall\n- Ensures no residual data left after uninstallation\n- Graceful error handling provides actionable user guidance for common issues\n\nThe uninstall process now handles all edge cases gracefully, provides clear feedback at each step, and ensures complete removal of all installed components while maintaining system integrity.\n</info added on 2025-06-24T00:14:17.031Z>",
+            "status": "done",
             "testStrategy": ""
           }
         ]
@@ -999,7 +999,7 @@
     ],
     "metadata": {
       "created": "2025-06-23T22:21:54.073Z",
-      "updated": "2025-06-23T23:46:50.440Z",
+      "updated": "2025-06-24T00:14:31.196Z",
       "description": "Tasks for master context"
     }
   }
