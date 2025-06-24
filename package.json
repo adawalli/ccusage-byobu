@@ -1,6 +1,6 @@
 {
   "name": "ccusage-byobu",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "A CLI tool for visualizing Claude Code usage metrics with byobu integration",
   "main": "./lib/index.js",
   "bin": {
