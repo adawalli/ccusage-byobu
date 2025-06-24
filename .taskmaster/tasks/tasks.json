@@ -388,56 +388,56 @@
       {
         "id": 7,
         "title": "Handle Multiple Active Sessions",
-        "description": "Implement logic to handle multiple concurrent Claude Code sessions gracefully",
-        "details": "Parse JSON output to identify all active sessions (isActive == true). Implement strategy for multiple sessions: show most recent/active, aggregate costs, or rotate display. Calculate combined usage metrics if showing aggregated view. Add indicator when multiple sessions are active (e.g., '+2' suffix). Ensure display remains within character limit. Consider priority based on usage level or activity recency.",
-        "testStrategy": "Test with 0, 1, 2, and 3+ active sessions, verify aggregation logic, test session prioritization, validate character limit compliance with multiple sessions",
-        "priority": "medium",
+        "description": "Implement logic to handle multiple concurrent Claude Code sessions gracefully - currently deferred pending user needs assessment",
+        "status": "deferred",
         "dependencies": [
           6
         ],
-        "status": "pending",
+        "priority": "medium",
+        "details": "This feature would parse JSON output to identify all active sessions (isActive == true) and implement strategies for handling multiple sessions: show most recent/active, aggregate costs, or rotate display. Would calculate combined usage metrics if showing aggregated view and add indicator when multiple sessions are active (e.g., '+2' suffix). Currently deferred as the existing single-session implementation may be sufficient for most users. Need to gather user feedback and usage data to determine if multi-session support is actually needed before proceeding with implementation.",
+        "testStrategy": "If implemented: Test with 0, 1, 2, and 3+ active sessions, verify aggregation logic, test session prioritization, validate character limit compliance with multiple sessions. Prior to implementation: gather usage analytics to confirm multi-session scenarios are common enough to warrant development.",
         "subtasks": [
           {
             "id": 1,
             "title": "Parse Multiple Sessions Data",
             "description": "Develop logic to parse and manage data from multiple concurrent sessions, ensuring accurate extraction and storage of session details.",
+            "status": "deferred",
             "dependencies": [],
             "details": "Implement data structures and parsing algorithms to handle multiple session inputs concurrently, maintaining session identifiers, timestamps, and relevant metadata.",
-            "status": "pending",
             "testStrategy": ""
           },
           {
             "id": 2,
             "title": "Implement Display Strategies for Sessions",
             "description": "Create display mechanisms to present session data using different strategies: most recent session, aggregate view, and rotating display of sessions.",
+            "status": "pending",
             "dependencies": [
               1
             ],
             "details": "Design UI components or output formats that can switch between showing the most recent session, aggregating data across sessions, or rotating through sessions in a timed or triggered manner.",
-            "status": "pending",
             "testStrategy": ""
           },
           {
             "id": 3,
             "title": "Calculate Usage Metrics Across Sessions",
             "description": "Develop algorithms to compute usage metrics such as session duration, frequency, concurrency, and aggregate statistics from parsed session data.",
+            "status": "pending",
             "dependencies": [
               1
             ],
             "details": "Define and implement metric calculations that can be applied per session and across multiple sessions to support display strategies and performance analysis.",
-            "status": "pending",
             "testStrategy": ""
           },
           {
             "id": 4,
             "title": "Format Display Output Within UI Constraints",
             "description": "Implement formatting logic to ensure session data and metrics are displayed clearly and concisely within given UI or output limits, handling truncation, pagination, or summarization as needed.",
+            "status": "pending",
             "dependencies": [
               2,
               3
             ],
             "details": "Apply formatting rules and constraints to session displays, balancing detail and readability, and integrating usage metrics into the final presentation.",
-            "status": "pending",
             "testStrategy": ""
           }
         ]
@@ -527,18 +527,16 @@
         "details": "Handle ccusage command not found, JSON parsing errors, permission issues, network timeouts. Implement graceful degradation: show cached data if available, fallback to simple format on errors, return empty string for byobu when critical errors occur. Add debug mode via CCUSAGE_BYOBU_DEBUG environment variable. Log errors to stderr (suppressed in byobu but useful for debugging). Add --test flag for troubleshooting installation issues.",
         "testStrategy": "Test with ccusage not installed, test with corrupted JSON output, test file permission scenarios, simulate network issues, verify debug output functionality",
         "priority": "medium",
-        "dependencies": [
-          7
-        ],
-        "status": "pending",
+        "dependencies": [],
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
             "title": "Handle Command Absence",
             "description": "Implement detection and handling for cases where expected commands are missing or not provided, ensuring the system fails gracefully with informative messages.",
             "dependencies": [],
-            "details": "Check for the presence of required commands early in the process. If a command is absent, log the event and return a clear, user-friendly error message to avoid silent failures.",
-            "status": "pending",
+            "details": "Check for the presence of required commands early in the process. If a command is absent, log the event and return a clear, user-friendly error message to avoid silent failures.\n<info added on 2025-06-24T00:36:53.287Z>\nThe current implementation uses 'which ccusage' to detect command presence in lib/index.js:10-15, with errors caught by the main error handler. Enhancement opportunities include:\n\n1. Improve error messaging to include installation instructions when ccusage is not found\n2. Extend command checking to verify other required dependencies (node, npm, etc.) \n3. Implement --test flag functionality for troubleshooting command availability\n4. Consider consolidating all command checks into a single validation function early in the execution flow\n\nImplementation approach: Create a validateRequiredCommands() function that checks for all necessary binaries, returns specific error messages with remediation steps, and supports a --test mode that reports on all dependencies without executing the main functionality.\n</info added on 2025-06-24T00:36:53.287Z>",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -549,7 +547,7 @@
               1
             ],
             "details": "Use thorough error checking around JSON operations. Catch exceptions related to JSON parsing and provide descriptive error messages. Log errors for debugging and maintain program stability by restoring state if needed.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -560,7 +558,7 @@
               1
             ],
             "details": "Check permissions before executing sensitive operations. If permission is denied, log the incident and return a user-friendly message explaining the issue and possible next steps.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -570,8 +568,8 @@
             "dependencies": [
               1
             ],
-            "details": "Set appropriate timeout thresholds for network requests. Catch timeout exceptions, log detailed information, and implement retry or fallback logic to ensure graceful degradation of service.",
-            "status": "pending",
+            "details": "Set appropriate timeout thresholds for network requests. Catch timeout exceptions, log detailed information, and implement retry or fallback logic to ensure graceful degradation of service.\n<info added on 2025-06-24T00:39:52.624Z>\nThe current implementation already includes a 30-second timeout for ccusage command execution with proper error handling in lib/index.js:164-166. Since ccusage runs with the --offline flag to read local data, network timeouts are not a primary concern for this use case. The existing timeout serves as defensive programming to prevent indefinite hangs. No additional retry logic or exponential backoff is needed given the offline nature of the operation.\n</info added on 2025-06-24T00:39:52.624Z>",
+            "status": "done",
             "testStrategy": ""
           },
           {
@@ -584,8 +582,8 @@
               3,
               4
             ],
-            "details": "Add configurable debug mode to output detailed logs and error information. Develop test mode to simulate various error scenarios including command absence, JSON errors, permission issues, and network timeouts to verify robustness.",
-            "status": "pending",
+            "details": "Add configurable debug mode to output detailed logs and error information. Develop test mode to simulate various error scenarios including command absence, JSON errors, permission issues, and network timeouts to verify robustness.\n<info added on 2025-06-24T00:40:28.244Z>\nImplementation confirmed complete. Debug mode is controlled via CCUSAGE_BYOBU_DEBUG environment variable with logging at multiple points throughout lib/index.js (lines 159, 169, 175, 195, 218, 231). Test mode accessible via --test flag triggers testInstallation() function which validates command availability, JSON parsing, configuration loading, and provides comprehensive diagnostics. All specified error scenarios (command absence, JSON errors, permission issues, network timeouts) are covered by the existing implementation.\n</info added on 2025-06-24T00:40:28.244Z>",
+            "status": "done",
             "testStrategy": ""
           }
         ]
@@ -999,7 +997,7 @@
     ],
     "metadata": {
       "created": "2025-06-23T22:21:54.073Z",
-      "updated": "2025-06-24T00:30:20.758Z",
+      "updated": "2025-06-24T00:40:40.025Z",
       "description": "Tasks for master context"
     }
   }

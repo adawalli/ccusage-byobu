@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { main } from '../lib/index.js';
+import { main, testInstallation } from '../lib/index.js';
 import { displayConfig, loadConfigFile } from '../lib/config.js';
 import { install, uninstall, uninstallAll } from '../lib/install.js';
 
@@ -12,6 +12,7 @@ let installMode = false;
 let uninstallMode = false;
 let uninstallAllMode = false;
 let refreshInterval = null;
+let testMode = false;
 
 // Parse arguments
 for (const arg of args) {
@@ -27,6 +28,8 @@ for (const arg of args) {
     uninstallAllMode = true;
   } else if (arg.startsWith('--refresh=')) {
     refreshInterval = arg.split('=')[1];
+  } else if (arg === '--test') {
+    testMode = true;
   } else if (arg === '--help' || arg === '-h') {
     console.log(`ccusage-byobu - A CLI tool for visualizing Claude Code usage metrics
 
@@ -40,6 +43,7 @@ Options:
   --uninstall           Uninstall byobu status script
   --uninstall-all       Uninstall all ccusage byobu scripts
   --refresh=<seconds>   Set custom refresh interval for byobu (default: 60)
+  --test                Test installation and command availability
   --help, -h            Show this help message
 
 Environment Variables:
@@ -97,7 +101,17 @@ if (showConfig) {
   process.exit(0);
 }
 
-main().catch((error) => {
-  console.error('Error:', error.message);
-  process.exit(1);
-});
+// Handle test mode
+if (testMode) {
+  testInstallation()
+    .then(() => process.exit(0))
+    .catch((error) => {
+      console.error('Test failed:', error.message);
+      process.exit(1);
+    });
+} else {
+  main().catch((error) => {
+    console.error('Error:', error.message);
+    process.exit(1);
+  });
+}
