@@ -32,9 +32,21 @@ function measureStartupTime(_args = [], iterations = 10) {
         timeout: 10000, // 10 second timeout
         env: { ...process.env, CCUSAGE_BYOBU_DEBUG: '0' }, // Disable debug output
       });
-    } catch {
+    } catch (error) {
       // Expected for this test since we don't have real ccusage data
       // Just measuring startup overhead
+
+      // Log errors when in debug mode to help with troubleshooting
+      if (
+        process.env.DEBUG ||
+        process.env.CCUSAGE_BYOBU_DEBUG === '1' ||
+        process.env.NODE_ENV === 'development'
+      ) {
+        console.error(
+          `Debug: Caught error during startup measurement iteration ${i + 1}:`,
+          error.message
+        );
+      }
     }
 
     timer.stop();
@@ -113,8 +125,17 @@ async function compareStartupTimes() {
       if (startupLine) console.log(`   ${startupLine}`);
       if (memoryLine) console.log(`   ${memoryLine}`);
       if (modulesLine) console.log(`   ${modulesLine}`);
-    } catch {
+    } catch (error) {
       console.log('   Debug analysis unavailable');
+
+      // Log errors when in debug mode to help with troubleshooting
+      if (
+        process.env.DEBUG ||
+        process.env.CCUSAGE_BYOBU_DEBUG === '1' ||
+        process.env.NODE_ENV === 'development'
+      ) {
+        console.error('Debug: Error during detailed analysis:', error.message);
+      }
     }
   }
 

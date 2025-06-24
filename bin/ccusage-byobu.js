@@ -141,13 +141,25 @@ Examples:
     try {
       // Log startup time if debug mode is enabled
       if (process.env.CCUSAGE_BYOBU_DEBUG) {
-        const { createTimer, getMemoryUsage } = await import('../lib/performance.js');
-        const startupTimer = createTimer();
-        startupTimer.startTime = startupStartTime;
-        startupTimer.stop();
+        const { getMemoryUsage } = await import('../lib/performance.js');
+
+        // Calculate startup duration directly using high-resolution time
+        const startupEndTime = process.hrtime.bigint();
+        const startupDurationNs = startupEndTime - startupStartTime;
+        const startupDurationMs = Number(startupDurationNs) / 1000000;
+
+        // Format duration similar to PerformanceTimer.format()
+        let formattedDuration;
+        if (startupDurationMs < 1) {
+          formattedDuration = `${Number(startupDurationNs)}ns`;
+        } else if (startupDurationMs < 1000) {
+          formattedDuration = `${startupDurationMs.toFixed(2)}ms`;
+        } else {
+          formattedDuration = `${(startupDurationMs / 1000).toFixed(3)}s`;
+        }
 
         const memoryAfterStartup = getMemoryUsage();
-        console.error(`Startup time: ${startupTimer.format()}`);
+        console.error(`Startup time: ${formattedDuration}`);
         console.error(
           `Startup memory: RSS ${memoryAfterStartup.rss.mb}MB, Heap ${memoryAfterStartup.heapUsed.mb}MB`
         );

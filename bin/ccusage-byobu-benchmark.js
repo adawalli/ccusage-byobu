@@ -75,17 +75,28 @@ async function runBenchmarkSuite(name, iterations, setup, teardown) {
 
   // Calculate statistics
   const durations = results.runs.map((r) => r.duration);
-  results.stats.avgDuration = durations.reduce((a, b) => a + b, 0) / durations.length;
-  results.stats.minDuration = Math.min(...durations);
-  results.stats.maxDuration = Math.max(...durations);
 
-  // Standard deviation
-  const variance =
-    durations.reduce((sum, val) => {
-      const diff = val - results.stats.avgDuration;
-      return sum + diff * diff;
-    }, 0) / durations.length;
-  results.stats.stdDev = Math.sqrt(variance);
+  // Defensive checks for empty durations array
+  if (durations.length === 0) {
+    results.stats.avgDuration = 0;
+    results.stats.minDuration = 0;
+    results.stats.maxDuration = 0;
+    results.stats.stdDev = 0;
+  } else {
+    results.stats.avgDuration = durations.reduce((a, b) => a + b, 0) / durations.length;
+    results.stats.minDuration = Math.min(...durations);
+    results.stats.maxDuration = Math.max(...durations);
+
+    // Standard deviation with defensive checks
+    const variance =
+      durations.reduce((sum, val) => {
+        const diff = val - results.stats.avgDuration;
+        return sum + diff * diff;
+      }, 0) / durations.length;
+
+    // Ensure variance is non-negative before taking square root
+    results.stats.stdDev = Math.sqrt(Math.max(0, variance));
+  }
 
   return results;
 }
@@ -104,9 +115,9 @@ function displayResults(results) {
 
   // Show percentiles
   const sorted = results.runs.map((r) => r.duration).sort((a, b) => a - b);
-  const p50 = sorted[Math.floor(sorted.length * 0.5)];
-  const p95 = sorted[Math.floor(sorted.length * 0.95)];
-  const p99 = sorted[Math.floor(sorted.length * 0.99)];
+  const p50 = sorted[Math.min(Math.floor(sorted.length * 0.5), sorted.length - 1)];
+  const p95 = sorted[Math.min(Math.floor(sorted.length * 0.95), sorted.length - 1)];
+  const p99 = sorted[Math.min(Math.floor(sorted.length * 0.99), sorted.length - 1)];
 
   console.log(`   P50: ${p50.toFixed(2)}ms`);
   console.log(`   P95: ${p95.toFixed(2)}ms`);
@@ -127,7 +138,10 @@ function compareResults(baseline, current) {
   console.log(`\n📈 Comparison: ${baseline.name} vs ${current.name}`);
 
   const improvement =
-    ((baseline.stats.avgDuration - current.stats.avgDuration) / baseline.stats.avgDuration) * 100;
+    baseline.stats.avgDuration === 0
+      ? 0
+      : ((baseline.stats.avgDuration - current.stats.avgDuration) / baseline.stats.avgDuration) *
+        100;
   const faster = improvement > 0;
 
   console.log(
