@@ -1,1 +1,2 @@
+npx gitleaks detect --source . --config .gitleaks.toml --verbose --exit-code 1
 npx lint-staged

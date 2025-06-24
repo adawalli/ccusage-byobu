@@ -1,0 +1,48 @@
+# Gitleaks configuration for ccusage-byobu
+title = "ccusage-byobu secrets detection"
+
+[allowlist]
+description = "Allowlist for known false positives"
+paths = [
+    ".gitleaks.toml",
+    "README.md",
+    ".env.example"
+]
+
+regexes = [
+    # Allow example/placeholder values
+    '''example''',
+    '''placeholder''',
+    '''YOUR_.*_HERE''',
+    '''sk-ant-api03-PLACEHOLDER''',
+    '''pplx-PLACEHOLDER''',
+    '''ghp_PLACEHOLDER''',
+    # Allow common test patterns
+    '''test.*key''',
+    '''mock.*secret''',
+]
+
+# Add custom rules for Claude/AI API keys
+[[rules]]
+id = "claude-api-key"
+description = "Claude API Key"
+regex = '''sk-ant-[a-zA-Z0-9\-_]{48,}'''
+keywords = ["claude", "anthropic"]
+
+[[rules]]
+id = "perplexity-api-key"
+description = "Perplexity API Key"
+regex = '''pplx-[a-zA-Z0-9]{32,}'''
+keywords = ["perplexity", "pplx"]
+
+[[rules]]
+id = "openai-api-key"
+description = "OpenAI API Key"
+regex = '''sk-proj-[a-zA-Z0-9]{48,}'''
+keywords = ["openai", "gpt"]
+
+[[rules]]
+id = "github-token"
+description = "GitHub Personal Access Token"
+regex = '''gh[pousr]_[A-Za-z0-9_]{36,251}'''
+keywords = ["github", "token"]
