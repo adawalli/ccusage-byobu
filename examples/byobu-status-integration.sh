@@ -3,10 +3,10 @@
 # Example byobu status script integration
 # Place this file as ~/.byobu/bin/60_ccusage to integrate with byobu
 
-# Set environment variable to disable cache for byobu status scripts
-export CCUSAGE_DISABLE_CACHE=1
+# Cache is disabled by default for byobu compatibility
+# No environment variable needed - ccusage-byobu works out of the box
 
 # Run ccusage-byobu and capture output
 ccusage-byobu 2>/dev/null || echo ""
 
-# The process will now terminate properly and not hang byobu status updates
+# The process will terminate properly without hanging byobu status updates
