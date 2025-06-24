@@ -368,14 +368,28 @@ modify_shell_profile() {
     
     # Add environment variables
     local env_vars=""
-    if [ -n "$CLAUDE_PLAN_TYPE" ]; then
-        env_vars="${env_vars}export CLAUDE_PLAN_TYPE=\"$CLAUDE_PLAN_TYPE\"\n"
-    fi
-    if [ -n "$CLAUDE_CONFIG_DIR" ]; then
-        env_vars="${env_vars}export CLAUDE_CONFIG_DIR=\"$CLAUDE_CONFIG_DIR\"\n"
-    fi
-    if [ -n "$REFRESH_INTERVAL" ] && [ "$REFRESH_INTERVAL" != "60" ]; then
-        env_vars="${env_vars}export CCUSAGE_BYOBU_REFRESH=\"$REFRESH_INTERVAL\"\n"
+    if [ "$shell_name" = "fish" ]; then
+        # Fish shell syntax
+        if [ -n "$CLAUDE_PLAN_TYPE" ]; then
+            env_vars="${env_vars}set -x CLAUDE_PLAN_TYPE \"$CLAUDE_PLAN_TYPE\"\n"
+        fi
+        if [ -n "$CLAUDE_CONFIG_DIR" ]; then
+            env_vars="${env_vars}set -x CLAUDE_CONFIG_DIR \"$CLAUDE_CONFIG_DIR\"\n"
+        fi
+        if [ -n "$REFRESH_INTERVAL" ] && [ "$REFRESH_INTERVAL" != "60" ]; then
+            env_vars="${env_vars}set -x CCUSAGE_BYOBU_REFRESH \"$REFRESH_INTERVAL\"\n"
+        fi
+    else
+        # Bash/zsh syntax
+        if [ -n "$CLAUDE_PLAN_TYPE" ]; then
+            env_vars="${env_vars}export CLAUDE_PLAN_TYPE=\"$CLAUDE_PLAN_TYPE\"\n"
+        fi
+        if [ -n "$CLAUDE_CONFIG_DIR" ]; then
+            env_vars="${env_vars}export CLAUDE_CONFIG_DIR=\"$CLAUDE_CONFIG_DIR\"\n"
+        fi
+        if [ -n "$REFRESH_INTERVAL" ] && [ "$REFRESH_INTERVAL" != "60" ]; then
+            env_vars="${env_vars}export CCUSAGE_BYOBU_REFRESH=\"$REFRESH_INTERVAL\"\n"
+        fi
     fi
     
     if [ -n "$env_vars" ]; then
