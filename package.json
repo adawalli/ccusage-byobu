@@ -7,13 +7,13 @@
     "ccusage-byobu": "./bin/ccusage-byobu.js"
   },
   "scripts": {
-    "build": "echo \"Build step placeholder\"",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"No build step required for this project\"",
+    "test": "echo \"No tests to run\"",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepublishOnly": "npm run build && npm test",
-    "prepare": "husky"
+    "prepare": "husky install"
   },
   "engines": {
     "node": ">=18.0.0"
