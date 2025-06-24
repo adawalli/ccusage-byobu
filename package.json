@@ -14,7 +14,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "secrets:check": "gitleaks detect --source . --config .gitleaks.toml --verbose",
-    "prepublishOnly": "npm run build && npm test",
+    "prepublishOnly": "npm run secrets:check && npm run build && npm test",
     "prepare": "husky install"
   },
   "engines": {
