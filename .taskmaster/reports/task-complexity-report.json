@@ -1,9 +1,9 @@
 {
 	"meta": {
-		"generatedAt": "2025-06-23T23:18:42.172Z",
-		"tasksAnalyzed": 14,
-		"totalTasks": 16,
-		"analysisCount": 16,
+		"generatedAt": "2025-06-24T21:31:37.141Z",
+		"tasksAnalyzed": 8,
+		"totalTasks": 18,
+		"analysisCount": 18,
 		"thresholdScore": 5,
 		"projectName": "Taskmaster",
 		"usedResearch": true
@@ -82,60 +82,76 @@
 			"reasoning": "Comprehensive error handling across various failure modes with graceful degradation and debug support is critical and moderately complex due to the breadth of scenarios."
 		},
 		{
-			"taskId": 10,
-			"taskTitle": "Optimize Performance and Caching",
-			"complexityScore": 6,
-			"recommendedSubtasks": 4,
-			"expansionPrompt": "Expand subtasks to include caching strategy design, JSON parsing optimization, lazy loading implementation, and performance profiling with analysis.",
-			"reasoning": "Performance optimization and caching require careful design and profiling but are well-scoped with clear subtasks focused on specific improvements."
-		},
-		{
-			"taskId": 11,
-			"taskTitle": "Create Comprehensive Documentation",
-			"complexityScore": 4,
-			"recommendedSubtasks": 4,
-			"expansionPrompt": "Expand subtasks to cover README creation, environment variable documentation, contributing guide, and inline code documentation with examples and visuals.",
-			"reasoning": "Documentation is essential but less technically complex; it requires thoroughness and clarity rather than intricate implementation."
-		},
-		{
-			"taskId": 12,
-			"taskTitle": "Package and Publish to NPM",
-			"complexityScore": 6,
-			"recommendedSubtasks": 4,
-			"expansionPrompt": "Expand subtasks to detail package metadata configuration, npm script setup, .npmignore configuration, and publishing workflow testing.",
-			"reasoning": "Preparing a package for NPM involves multiple configuration and testing steps to ensure smooth publishing and installation, requiring attention to detail."
-		},
-		{
-			"taskId": 13,
-			"taskTitle": "Host Installer Script and Setup Infrastructure",
-			"complexityScore": 6,
-			"recommendedSubtasks": 4,
-			"expansionPrompt": "Expand subtasks to include hosting setup, CDN and caching configuration, versioned script management, and monitoring with analytics integration.",
-			"reasoning": "Setting up reliable hosting infrastructure with CDN, version control, and monitoring involves multiple operational components but is straightforward with proper planning."
-		},
-		{
-			"taskId": 14,
-			"taskTitle": "Implement Advanced Display Features",
-			"complexityScore": 5,
-			"recommendedSubtasks": 4,
-			"expansionPrompt": "Expand subtasks to cover time estimate display, session count indicator, truncation logic, and animated/extended visual features implementation.",
-			"reasoning": "Adding advanced UI features requires design and testing but is less complex than core logic tasks, focusing on user experience enhancements."
-		},
-		{
-			"taskId": 15,
-			"taskTitle": "Cross-Platform Testing and Compatibility",
-			"complexityScore": 7,
-			"recommendedSubtasks": 5,
-			"expansionPrompt": "Expand subtasks to detail OS testing, Byobu version compatibility, Node.js version testing, shell and terminal validation, and CI/CD pipeline setup.",
-			"reasoning": "Ensuring broad compatibility across OSes, shells, and versions with automated testing pipelines is complex due to the variety of environments and integration points."
-		},
-		{
 			"taskId": 16,
 			"taskTitle": "Configure Husky Pre-commit Hooks for Code Quality",
 			"complexityScore": 4,
 			"recommendedSubtasks": 3,
 			"expansionPrompt": "Expand to include detailed setup of Husky, lint-staged configuration, commit-msg validation, and documentation of bypass procedures.",
 			"reasoning": "Setting up pre-commit hooks is a well-understood process with moderate complexity focused on configuration and testing rather than development."
+		},
+		{
+			"taskId": 10,
+			"taskTitle": "Optimize Performance and Caching",
+			"complexityScore": 8,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Break down the performance optimization into focused subtasks such as caching strategy refinement, JSON parsing improvements, lazy loading implementation, profiling and analysis, and cache event system integration.",
+			"reasoning": "This task involves multiple complex areas including caching design, JSON parsing optimization, lazy loading, memory profiling, and startup time reduction. It requires coordination of several interdependent components and detailed performance testing, making it moderately high complexity."
+		},
+		{
+			"taskId": 11,
+			"taskTitle": "Create Comprehensive Documentation",
+			"complexityScore": 5,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Expand documentation into subtasks covering README creation, environment variable documentation, contributing guide, inline code documentation, and reference implementation attribution.",
+			"reasoning": "While documentation is less technically complex, it requires thoroughness and coverage of multiple aspects including user guides, developer instructions, and attribution. Dividing into clear documentation areas improves manageability."
+		},
+		{
+			"taskId": 12,
+			"taskTitle": "Package and Publish to NPM",
+			"complexityScore": 6,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Divide packaging and publishing into subtasks for configuring package metadata, setting up npm scripts, configuring .npmignore, and testing the publishing workflow.",
+			"reasoning": "Packaging involves multiple configuration and validation steps that must be done correctly to ensure smooth publishing and installation. It requires attention to detail and testing but is relatively straightforward."
+		},
+		{
+			"taskId": 13,
+			"taskTitle": "Host Installer Script and Setup Infrastructure",
+			"complexityScore": 7,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Expand into subtasks for hosting infrastructure setup, CDN and caching configuration, versioned script management, and monitoring and analytics implementation.",
+			"reasoning": "Setting up hosting infrastructure with CDN, version control, and monitoring involves multiple technical components and coordination, making it moderately complex."
+		},
+		{
+			"taskId": 14,
+			"taskTitle": "Implement Advanced Display Features",
+			"complexityScore": 4,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Create subtasks for time estimate display, session count indicator, truncation logic, and animated/extended visual features.",
+			"reasoning": "These UI enhancements are individually manageable but require careful design and testing to ensure usability and compatibility, warranting moderate complexity."
+		},
+		{
+			"taskId": 15,
+			"taskTitle": "Cross-Platform Testing and Compatibility",
+			"complexityScore": 7,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Expand testing into OS testing, Byobu version compatibility, Node.js version testing, shell and terminal emulator validation, and CI/CD pipeline setup.",
+			"reasoning": "Ensuring compatibility across multiple OSes, shells, Node.js versions, and terminal emulators requires extensive testing and automation setup, making it a complex and critical task."
+		},
+		{
+			"taskId": 17,
+			"taskTitle": "Remove sudo usage from installer scripts",
+			"complexityScore": 6,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "Break down into subtasks for analyzing sudo usage, refactoring installation paths and permissions, and updating documentation and fallback mechanisms.",
+			"reasoning": "Refactoring installer scripts to remove sudo involves careful permission handling and user environment adjustments, which is moderately complex but focused in scope."
+		},
+		{
+			"taskId": 18,
+			"taskTitle": "Refactor Plan Offerings Throughout Codebase",
+			"complexityScore": 7,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Divide into subtasks for codebase-wide search and update of plan references, updating validation and pricing logic, modifying API and database schemas, and testing plan transitions and analytics.",
+			"reasoning": "This task affects many parts of the codebase including logic, data models, UI, and analytics, requiring comprehensive updates and thorough testing, thus moderately high complexity."
 		}
 	]
 }
