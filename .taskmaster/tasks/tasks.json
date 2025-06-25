@@ -691,8 +691,79 @@
           10,
           "16"
         ],
-        "status": "pending",
-        "subtasks": []
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create README File",
+            "description": "Develop a comprehensive README file placed in the root directory that introduces the project, explains its purpose, and provides essential usage information including credentials if required.",
+            "dependencies": [],
+            "details": "Include project overview, user-facing capabilities, role of the project, expected outcomes, and any special designations such as idempotency or atomicity.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Write Installation Guides for Multiple Methods",
+            "description": "Document step-by-step installation instructions covering all supported installation methods to ensure users can set up the software in their preferred environment.",
+            "dependencies": [
+              1
+            ],
+            "details": "Include prerequisites, commands, configuration steps, and verification procedures for each installation method.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Develop Usage Examples",
+            "description": "Create example playbooks or usage scenarios that demonstrate how to use the software effectively, helping users understand its functionality through practical illustrations.",
+            "dependencies": [
+              1
+            ],
+            "details": "Provide clear, annotated examples that cover common use cases and highlight key features.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Document Environment Variables",
+            "description": "List and explain all environment variables that affect the software's behavior, including their purpose, default values, and how to configure them.",
+            "dependencies": [
+              1
+            ],
+            "details": "Ensure clarity on how environment variables influence installation, usage, and troubleshooting.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Create Troubleshooting Guide",
+            "description": "Develop a troubleshooting section that addresses common issues users may encounter, providing solutions and diagnostic steps to resolve them.",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "details": "Include error messages, causes, and recommended fixes to assist users in problem resolution.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Compile FAQ Section",
+            "description": "Assemble a Frequently Asked Questions section to answer common queries and clarify typical points of confusion for users.",
+            "dependencies": [
+              1,
+              3,
+              4,
+              5
+            ],
+            "details": "Gather questions from user feedback and documentation gaps to improve user experience and reduce support requests.",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
       },
       {
         "id": 12,
@@ -1108,7 +1179,7 @@
     ],
     "metadata": {
       "created": "2025-06-23T22:21:54.073Z",
-      "updated": "2025-06-25T00:02:54.021Z",
+      "updated": "2025-06-25T00:27:50.141Z",
       "description": "Tasks for master context"
     }
   }

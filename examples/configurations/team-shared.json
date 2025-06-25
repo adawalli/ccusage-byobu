@@ -1,0 +1,13 @@
+{
+  "description": "Shared team configuration for ccusage-byobu",
+  "version": "1.0",
+  "CLAUDE_PLAN_TYPE": "max_5x",
+  "CLAUDE_CONFIG_DIR": "/shared/team/.claude",
+  "CCUSAGE_BYOBU_FORMAT": "full",
+  "CCUSAGE_BYOBU_COLORS": "true",
+  "CCUSAGE_BYOBU_THRESHOLD": "75",
+  "CCUSAGE_BYOBU_REFRESH": "45",
+  "CCUSAGE_ENABLE_CACHE": "1",
+  "CCUSAGE_BYOBU_CACHE_MAX_KEYS": "75",
+  "CCUSAGE_BYOBU_CACHE_WINDOW_SIZE": "100"
+}
