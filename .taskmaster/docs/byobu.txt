@@ -286,14 +286,16 @@ echo "====================="
 echo "Select your Claude plan type:"
 echo "1) Free/Trial"
 echo "2) Pro (Pay-as-you-go)"  
-echo "3) Team"
-echo "4) Enterprise"
+echo "3) Max (5x)"
+echo "4) Max (20x)"
+echo "5) Enterprise"
 read -p "Choice [2]: " plan_choice
 case ${plan_choice:-2} in
   1) export CLAUDE_PLAN_TYPE="free" ;;
   2) export CLAUDE_PLAN_TYPE="pro" ;;
-  3) export CLAUDE_PLAN_TYPE="team" ;;
-  4) export CLAUDE_PLAN_TYPE="enterprise" ;;
+  3) export CLAUDE_PLAN_TYPE="max_5x" ;;
+  4) export CLAUDE_PLAN_TYPE="max_20x" ;;
+  5) export CLAUDE_PLAN_TYPE="enterprise" ;;
 esac
 
 # Custom Claude config directory
@@ -333,7 +335,7 @@ export CCUSAGE_BYOBU_REFRESH="60"        # seconds (changes filename)
 # ccusage core configuration (affects cost calculations)
 export CLAUDE_CONFIG_DIR="/custom/path"  # Custom Claude config directory
 export CCUSAGE_DATA_DIR="/path/to/data"  # Multiple paths: /path1,/path2
-export CLAUDE_PLAN_TYPE="pro"            # plan types: free, pro, team, enterprise
+export CLAUDE_PLAN_TYPE="pro"            # plan types: free, pro, max_5x, max_20x, enterprise
 export CLAUDE_API_KEY="your_key"         # For live data fetching (optional)
 
 # Pricing configuration (if custom pricing needed)
