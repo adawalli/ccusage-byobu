@@ -1000,10 +1000,75 @@
         "description": "Update all references to the current free/pro/team/enterprise plan structure to the new free, pro, max (5x), max (20x), and enterprise structure throughout the codebase",
         "details": "Search entire codebase for references to current plan tiers (free, pro, team, enterprise) using grep/ripgrep. Identify all files containing plan-related logic, constants, types, and UI text. Update plan tier constants/enums to reflect new structure: FREE, PRO, MAX_5X, MAX_20X, ENTERPRISE. Refactor any switch statements, if/else chains, or conditional logic that checks plan types. Update plan validation logic to handle new max tiers with their respective multipliers (5x and 20x). Modify any pricing calculation functions to account for new tier multipliers. Update API response schemas and database models if plan information is stored. Search for hardcoded plan names in error messages, documentation strings, and user-facing text. Update any plan comparison matrices or feature flags tied to specific plans. Ensure backward compatibility by implementing migration logic for existing users on 'team' plan to appropriate new tier. Update any analytics or telemetry that tracks plan usage. Modify plan upgrade/downgrade flows to handle new tier transitions. Update any rate limiting or usage quota logic tied to plan tiers.",
         "testStrategy": "Create comprehensive test suite for plan tier changes: unit tests for all plan-related functions with new tiers, integration tests for plan upgrade/downgrade flows, verify backward compatibility with migration tests for existing 'team' users, test rate limiting and usage quotas for each new tier especially max multipliers, validate all API endpoints return correct plan information, test plan validation rejects invalid plan names, verify UI correctly displays new plan names throughout application, test analytics correctly tracks new plan tiers, manually verify no hardcoded old plan names remain via global search, test edge cases like plan transitions between max tiers",
-        "status": "pending",
+        "status": "done",
         "dependencies": [],
         "priority": "high",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Search and Identify Plan References",
+            "description": "Locate all references to plans within the codebase, including constants, enums, API calls, database schemas, and UI components.",
+            "dependencies": [],
+            "details": "Perform a comprehensive search across the codebase to find where plans are referenced or used. Document these locations for further updates.\n<info added on 2025-06-24T23:52:34.156Z>\nFound plan references across 4 key files in the codebase:\n\n**File Locations with Plan References:**\n- `.taskmaster/docs/byobu.txt` - Lines 287-296, 336: Claude plan selection and documentation\n- `install-ccusage-byobu.sh` - Lines 179-199, 373-385: Interactive plan selection prompts and shell exports\n- `lib/config.js` - Lines 98, 143, 198: Pass-through environment variable handling for CLAUDE_PLAN_TYPE\n- `.taskmaster/tasks/tasks.json` - Task documentation referring to free/pro/team/enterprise structure\n\n**Current Plan Structure:** free, pro, team, enterprise\n\n**New Plan Structure:** free, pro, max (5x), max (20x), enterprise\n\n**Key Update Areas Identified:**\n1. Constants and enums definitions\n2. Interactive prompt logic in installer script\n3. Documentation strings and help text\n4. Environment variable validation and handling\n5. Migration logic needed for existing 'team' plan users\n</info added on 2025-06-24T23:52:34.156Z>",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Update Constants and Enums",
+            "description": "Modify and update all constants and enumerations related to plans based on the new requirements or changes identified.",
+            "dependencies": [
+              1
+            ],
+            "details": "Refactor constants and enums to reflect new plan definitions or structures, ensuring consistency across the codebase.\n<info added on 2025-06-24T23:54:31.155Z>\nImplementation completed. Updated install-ccusage-byobu.sh script to display new plan options in interactive prompt: Free, Pro, Max (5x), Max (20x), and Enterprise with corresponding environment variable values (free, pro, max_5x, max_20x, enterprise). Modified .taskmaster/docs/byobu.txt documentation to match new plan structure in both interactive selection menu and configuration comments. Investigation revealed the codebase doesn't define JavaScript enums for plans - instead uses CLAUDE_PLAN_TYPE as a pass-through environment variable to the underlying ccusage tool. All references to deprecated 'team' plan have been replaced with appropriate max tier options throughout configuration scripts.\n</info added on 2025-06-24T23:54:31.155Z>",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Refactor Logic and Validation",
+            "description": "Revise the business logic and validation rules associated with plans to align with updated constants, enums, and requirements.",
+            "dependencies": [
+              2
+            ],
+            "details": "Refactor code handling plan-related logic and validation to improve maintainability and correctness without changing external behavior.\n<info added on 2025-06-24T23:57:30.779Z>\nCompleted comprehensive analysis of plan-related logic and validation throughout the codebase. Found that the ccusage-byobu tool operates as a lightweight wrapper around the ccusage command, with no local plan validation or business logic. All plan-specific behavior is delegated to the underlying ccusage tool.\n\nKey findings:\n- No plan-specific validation exists in the JavaScript codebase\n- No switch/case statements or conditional logic based on plan types in the wrapper code\n- The only plan-related case statement exists in the install script (already updated in subtask 18.2)\n- No pricing calculations, plan multipliers, or business rules are implemented locally\n- The hardcoded 300-minute session duration is plan-agnostic and requires no modification\n- All plan validation, pricing logic, and plan-specific behavior is handled by the ccusage command itself\n\nConclusion: No refactoring of logic or validation is required. The plan structure changes only impact user-facing elements like prompts and documentation, not the underlying functionality.\n</info added on 2025-06-24T23:57:30.779Z>",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Modify API and Database Schemas",
+            "description": "Update API endpoints and database schemas to support the new or changed plan structures and logic.",
+            "dependencies": [
+              3
+            ],
+            "details": "Change API contracts and database tables/fields related to plans, ensuring backward compatibility and data integrity.\n<info added on 2025-06-24T23:58:40.860Z>\nAnalysis completed - no API or database modifications needed:\n\n1. **No APIs Found**: This codebase contains no API definitions, REST endpoints, or server components. It's a CLI wrapper that calls the external 'ccusage' command.\n\n2. **No Database Present**: No database schemas, ORM models, or data persistence layer exists. The tool does not store any data locally.\n\n3. **Architecture Findings**:\n   - Pure client-side CLI tool\n   - Consumes JSON output from external ccusage command\n   - All plan-related data handling delegated to external tool\n   - Only handles display formatting and user interface\n\n4. **Impact Assessment**: Plan changes will only affect:\n   - User interface components\n   - Configuration handling\n   - Display formatting\n   - No data model or API contract changes required\n\nThis subtask can be marked as complete with no implementation needed.\n</info added on 2025-06-24T23:58:40.860Z>",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Update UI and Documentation",
+            "description": "Revise user interface components and documentation to reflect changes in plans, including new features or altered workflows.",
+            "dependencies": [
+              4
+            ],
+            "details": "Modify UI elements that display or interact with plans and update all relevant documentation for developers and users.\n<info added on 2025-06-24T23:59:59.166Z>\nCompleted comprehensive UI and documentation updates for the new plan structure. Successfully updated interactive prompts in install-ccusage-byobu.sh to display the new plan options (Free, Pro, Max(5x), Max(20x), Enterprise). Updated .taskmaster/docs/byobu.txt documentation with the new plan structure for both interactive selection and configuration comments. Verified all configuration display text and shell export handling now uses the correct plan types. Confirmed help/usage text remains plan-agnostic with no plan-specific references. Performed thorough search to ensure no 'team' plan references remain in the active codebase. All user-facing elements throughout the system now consistently reflect the updated plan offerings: free, pro, max_5x, max_20x, enterprise.\n</info added on 2025-06-24T23:59:59.166Z>",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Implement Migration Logic",
+            "description": "Develop and execute migration scripts or procedures to transition existing data and configurations to the updated plan structures.",
+            "dependencies": [
+              4
+            ],
+            "details": "Create migration logic to ensure smooth data transition without loss or corruption, supporting backward compatibility where necessary.\n<info added on 2025-06-25T00:02:37.273Z>\nThe migration logic has been successfully implemented with the following comprehensive features:\n\n- Enhanced the `get_claude_plan_type()` function in `install-ccusage-byobu.sh` to automatically detect existing 'team' plan configurations and provide interactive guided migration with recommended defaults\n- Created a standalone `migrate_team_plan()` function that can be invoked independently to migrate existing shell profile configurations across all supported shells\n- Added command-line argument processing with a `--migrate` flag to the installer script, enabling easy migration access for users\n- Implemented plan type validation in `lib/config.js` that detects legacy 'team' plan usage at runtime and provides clear migration guidance with warning messages\n- Developed automatic shell profile updates that safely replace 'team' references with the selected new plan type across `.bashrc`, `.zshrc`, and `.config/fish/config.fish` files\n- Integrated automatic backup creation for all shell profiles before any modifications are made, ensuring data safety\n- Established `max_5x` as the recommended default migration target for most team users, based on comparable features and usage patterns\n\nThe migration process maintains full backward compatibility during the transition period while ensuring existing users experience no service disruption. All migration operations are designed to be idempotent and can be safely re-run if needed.\n</info added on 2025-06-25T00:02:37.273Z>",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
       },
       {
         "id": 19,
@@ -1043,7 +1108,7 @@
     ],
     "metadata": {
       "created": "2025-06-23T22:21:54.073Z",
-      "updated": "2025-06-24T22:15:57.706Z",
+      "updated": "2025-06-25T00:02:54.021Z",
       "description": "Tasks for master context"
     }
   }
