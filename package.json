@@ -1,20 +1,25 @@
 {
   "name": "ccusage-byobu",
   "version": "1.0.6",
-  "description": "A CLI tool for visualizing Claude Code usage metrics with byobu integration",
+  "description": "Real-time Claude Code API usage monitoring for byobu/tmux status bars with colored indicators, persistent caching, and automated integration",
   "main": "./lib/index.js",
   "bin": {
-    "ccusage-byobu": "./bin/ccusage-byobu.js",
-    "ccusage-byobu-benchmark": "./bin/ccusage-byobu-benchmark.js"
+    "ccusage-byobu": "bin/ccusage-byobu.js",
+    "ccusage-byobu-benchmark": "bin/ccusage-byobu-benchmark.js"
   },
   "scripts": {
     "build": "echo \"No build step required for this project\"",
-    "test": "echo \"No tests to run\"",
+    "test": "node --version && npm --version && echo 'Basic environment check passed'",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "secrets:check": "gitleaks detect --source . --config .gitleaks.toml --verbose",
+    "clean": "rm -rf node_modules package-lock.json",
+    "validate": "npm run lint && npm run format:check && npm run test",
+    "prepack": "npm run validate",
     "prepublishOnly": "npm run secrets:check && npm run build && npm test",
+    "postpublish": "echo 'Successfully published ccusage-byobu@'$npm_package_version",
+    "version": "npm run validate && git add -A package.json",
     "prepare": "husky install"
   },
   "engines": {
@@ -26,15 +31,31 @@
   },
   "keywords": [
     "claude",
-    "usage",
-    "metrics",
+    "claude-code",
+    "anthropic",
+    "api-usage",
+    "usage-metrics",
+    "monitoring",
     "cli",
     "byobu",
-    "terminal"
+    "tmux",
+    "status-bar",
+    "terminal",
+    "developer-tools",
+    "devtools",
+    "real-time"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "Adam Wallis <adam@byte.fit>",
+  "license": "MIT",
   "type": "module",
+  "files": [
+    "bin/",
+    "lib/",
+    "README.md",
+    "LICENSE",
+    "USAGE_EXAMPLES.md",
+    "TROUBLESHOOTING.md"
+  ],
   "dependencies": {
     "ccusage": "^15.2.0",
     "json-parse-even-better-errors": "^4.0.0"

@@ -92,7 +92,7 @@ The tool supports various configuration options:
 - **Refresh Interval**: Set byobu update frequency (5-3600 seconds)
 - **Cache Settings**: Control caching behavior for performance
 
-*For comprehensive configuration options and examples, see [USAGE_EXAMPLES.md](USAGE_EXAMPLES.md).*
+_For comprehensive configuration options and examples, see [USAGE_EXAMPLES.md](USAGE_EXAMPLES.md)._
 
 ## 🔧 How It Works
 
@@ -163,8 +163,9 @@ We welcome contributions! Please see our contributing guidelines for:
 - Pull request process
 
 The project uses:
+
 - **ESLint** for code linting
-- **Prettier** for code formatting  
+- **Prettier** for code formatting
 - **Husky** for git hooks
 - **Conventional Commits** for commit messages
 
@@ -186,4 +187,4 @@ This project is licensed under the ISC License - see the [LICENSE](LICENSE) file
 
 ---
 
-*Built with ❤️ for the Claude Code community*
+_Built with ❤️ for the Claude Code community_

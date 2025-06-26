@@ -45,6 +45,7 @@ cd ccusage-byobu
 ```
 
 **Example interactive session:**
+
 ```
 ccusage-byobu Installer
 =======================
@@ -59,7 +60,7 @@ ccusage-byobu Installer
 
 Please select your Claude plan type:
 1) Free
-2) Pro  
+2) Pro
 3) Max (5x)
 4) Max (20x)
 5) Enterprise
@@ -70,7 +71,7 @@ Enter your choice (1-5): 3
 Please specify your Claude configuration directory:
 Default: /home/user/.claude
 
-Enter directory path (or press Enter for default): 
+Enter directory path (or press Enter for default):
 ✓ Claude config directory: /home/user/.claude
 
 Please specify the refresh interval for byobu status (in seconds):
@@ -146,6 +147,7 @@ export CCUSAGE_BYOBU_DEBUG="1"            # Enable debug output
 ### 2. Configuration File Examples
 
 **JSON Configuration (`~/.ccusage-byobu.json`):**
+
 ```json
 {
   "CLAUDE_PLAN_TYPE": "pro",
@@ -158,6 +160,7 @@ export CCUSAGE_BYOBU_DEBUG="1"            # Enable debug output
 ```
 
 **Environment File (`.env` format):**
+
 ```bash
 # Claude configuration
 CLAUDE_PLAN_TYPE="max_20x"
@@ -174,6 +177,7 @@ CCUSAGE_ENABLE_CACHE="true"
 ```
 
 **Usage with config file:**
+
 ```bash
 # Load from JSON config
 ccusage-byobu --config=~/.ccusage-byobu.json
@@ -185,6 +189,7 @@ ccusage-byobu --config=~/ccusage.env
 ### 3. Shell Profile Configuration
 
 **Bash (`~/.bashrc`):**
+
 ```bash
 # ccusage-byobu configuration
 export CLAUDE_PLAN_TYPE="pro"
@@ -196,6 +201,7 @@ export CCUSAGE_BYOBU_REFRESH="60"
 ```
 
 **Zsh (`~/.zshrc`):**
+
 ```zsh
 # ccusage-byobu configuration
 export CLAUDE_PLAN_TYPE="max_5x"
@@ -206,6 +212,7 @@ export CCUSAGE_BYOBU_THRESHOLD="75"
 ```
 
 **Fish (`~/.config/fish/config.fish`):**
+
 ```fish
 # ccusage-byobu configuration
 set -x CLAUDE_PLAN_TYPE "enterprise"
@@ -239,6 +246,7 @@ ccusage-byobu --help
 ### 2. Different Display Formats
 
 **Compact Format:**
+
 ```bash
 export CCUSAGE_BYOBU_FORMAT="compact"
 ccusage-byobu
@@ -246,6 +254,7 @@ ccusage-byobu
 ```
 
 **Full Format:**
+
 ```bash
 export CCUSAGE_BYOBU_FORMAT="full"
 ccusage-byobu
@@ -255,6 +264,7 @@ ccusage-byobu
 ### 3. Color Schemes
 
 **With Colors (default):**
+
 ```bash
 export CCUSAGE_BYOBU_COLORS="true"
 ccusage-byobu
@@ -262,6 +272,7 @@ ccusage-byobu
 ```
 
 **Without Colors:**
+
 ```bash
 export CCUSAGE_BYOBU_COLORS="false"
 ccusage-byobu
@@ -269,6 +280,7 @@ ccusage-byobu
 ```
 
 **Auto Colors (terminal detection):**
+
 ```bash
 export CCUSAGE_BYOBU_COLORS="auto"
 ccusage-byobu
@@ -305,7 +317,7 @@ ccusage-byobu --install --refresh=120
 ls ~/.byobu/bin/*_ccusage
 # Output:
 # ~/.byobu/bin/30_ccusage
-# ~/.byobu/bin/60_ccusage  
+# ~/.byobu/bin/60_ccusage
 # ~/.byobu/bin/120_ccusage
 
 # Uninstall specific interval
@@ -318,6 +330,7 @@ ccusage-byobu --uninstall-all
 ### 3. Custom Byobu Status Script
 
 Create `~/.byobu/bin/61_ccusage_custom`:
+
 ```bash
 #!/bin/bash
 
@@ -331,6 +344,7 @@ fi
 ```
 
 Make it executable:
+
 ```bash
 chmod +x ~/.byobu/bin/61_ccusage_custom
 ```
@@ -338,6 +352,7 @@ chmod +x ~/.byobu/bin/61_ccusage_custom
 ### 4. Conditional Display Script
 
 Create `~/.byobu/bin/62_ccusage_conditional`:
+
 ```bash
 #!/bin/bash
 
@@ -354,6 +369,7 @@ fi
 ### 1. Different Claude Tier Configurations
 
 **Free Tier Setup:**
+
 ```bash
 export CLAUDE_PLAN_TYPE="free"
 export CCUSAGE_BYOBU_THRESHOLD="90"  # Higher threshold for free limits
@@ -362,6 +378,7 @@ ccusage-byobu --install --refresh=120  # Slower refresh for free tier
 ```
 
 **Pro Tier Setup:**
+
 ```bash
 export CLAUDE_PLAN_TYPE="pro"
 export CCUSAGE_BYOBU_THRESHOLD="80"
@@ -370,6 +387,7 @@ ccusage-byobu --install --refresh=60
 ```
 
 **Max Tier Setup:**
+
 ```bash
 export CLAUDE_PLAN_TYPE="max_20x"
 export CCUSAGE_BYOBU_THRESHOLD="75"  # Lower threshold for higher limits
@@ -378,6 +396,7 @@ ccusage-byobu --install --refresh=30  # Faster refresh for active development
 ```
 
 **Enterprise Setup:**
+
 ```bash
 export CLAUDE_PLAN_TYPE="enterprise"
 export CCUSAGE_BYOBU_THRESHOLD="70"
@@ -389,6 +408,7 @@ ccusage-byobu --install --refresh=30
 ### 2. Development vs Production Configurations
 
 **Development Configuration:**
+
 ```bash
 # Fast refresh, detailed output, caching enabled
 export CCUSAGE_BYOBU_FORMAT="full"
@@ -399,6 +419,7 @@ export CCUSAGE_BYOBU_DEBUG="1"
 ```
 
 **Production Configuration:**
+
 ```bash
 # Slower refresh, compact output, no debug
 export CCUSAGE_BYOBU_FORMAT="compact"
@@ -410,6 +431,7 @@ export CCUSAGE_BYOBU_DEBUG="0"
 ### 3. Team Environment Configuration
 
 **Shared Team Settings:**
+
 ```bash
 # Create team configuration file
 cat > /shared/ccusage-team.env << EOF
@@ -458,11 +480,12 @@ ccusage-byobu-benchmark startup --iterations=100
 ```
 
 **Example benchmark output:**
+
 ```
 🏃 Running benchmark suite: Cold Start (no cache)
    Iterations: 10
    Running iterations...
-   Progress: 100%    
+   Progress: 100%
 
 📊 Results for: Cold Start (no cache)
    Iterations: 10
@@ -501,6 +524,7 @@ ccusage-byobu
 ### 1. Installation Issues
 
 **Problem: ccusage command not found**
+
 ```bash
 # Check if ccusage is installed
 which ccusage
@@ -512,6 +536,7 @@ ccusage --version
 ```
 
 **Problem: Permission denied during installation**
+
 ```bash
 # Try with sudo
 sudo npm install -g ccusage-byobu
@@ -525,6 +550,7 @@ npm install -g ccusage-byobu
 ```
 
 **Problem: Node.js version incompatibility**
+
 ```bash
 # Check Node.js version
 node --version
@@ -540,6 +566,7 @@ nvm use 18
 ### 2. Byobu Integration Issues
 
 **Problem: Status not appearing in byobu**
+
 ```bash
 # Check if script is installed
 ls -la ~/.byobu/bin/*ccusage*
@@ -556,6 +583,7 @@ byobu
 ```
 
 **Problem: Status shows empty output**
+
 ```bash
 # Test ccusage-byobu directly
 ccusage-byobu --test
@@ -571,6 +599,7 @@ ccusage-byobu
 ### 3. Configuration Issues
 
 **Problem: Invalid plan type error**
+
 ```bash
 # Check current configuration
 ccusage-byobu --config
@@ -583,6 +612,7 @@ export CLAUDE_PLAN_TYPE="free"      # or "pro", "max_5x", "max_20x", "enterprise
 ```
 
 **Problem: Configuration not loading**
+
 ```bash
 # Verify environment variables
 env | grep CLAUDE
@@ -598,6 +628,7 @@ ccusage-byobu --config=/path/to/config.json
 ### 4. Performance Issues
 
 **Problem: Slow response times**
+
 ```bash
 # Enable caching for repeated calls
 export CCUSAGE_ENABLE_CACHE="1"
@@ -611,6 +642,7 @@ ccusage-byobu-benchmark
 ```
 
 **Problem: High memory usage**
+
 ```bash
 # Disable debug mode
 unset CCUSAGE_BYOBU_DEBUG
@@ -627,6 +659,7 @@ export CCUSAGE_BYOBU_CACHE_MAX_KEYS="50"
 ### 1. Plan Migration Examples
 
 **Migrating from Legacy 'team' Plan:**
+
 ```bash
 # Check current plan
 echo $CLAUDE_PLAN_TYPE
@@ -638,19 +671,19 @@ echo $CLAUDE_PLAN_TYPE
 # Interactive migration:
 # 🔄 Claude Plan Migration Tool
 # ==============================
-# 
+#
 # Legacy 'team' plan detected in your environment.
 # The 'team' plan has been discontinued and replaced with:
 #   • Max (5x) - Moderate usage scaling, suitable for most teams
 #   • Max (20x) - High usage scaling, for intensive development
-# 
+#
 # Available options:
 # 1) Free
 # 2) Pro
 # 3) Max (5x) - Recommended for most team users
 # 4) Max (20x) - For high-usage teams
 # 5) Enterprise
-# 
+#
 # Select your new plan (1-5) [recommended: 3]: 3
 # ✅ Migration complete: team → max_5x
 ```
@@ -658,6 +691,7 @@ echo $CLAUDE_PLAN_TYPE
 ### 2. Plan-Specific Optimizations
 
 **Free Tier Optimization:**
+
 ```bash
 export CLAUDE_PLAN_TYPE="free"
 export CCUSAGE_BYOBU_FORMAT="compact"      # Minimize space usage
@@ -667,6 +701,7 @@ export CCUSAGE_BYOBU_COLORS="false"        # Minimize processing
 ```
 
 **Max Tier Optimization:**
+
 ```bash
 export CLAUDE_PLAN_TYPE="max_20x"
 export CCUSAGE_BYOBU_FORMAT="full"         # Show detailed progress bar
@@ -680,6 +715,7 @@ export CCUSAGE_ENABLE_CACHE="1"            # Enable caching for performance
 ### 1. Custom Display Formats
 
 **Creating a Custom Format Script:**
+
 ```bash
 # Create custom formatter
 cat > ~/.byobu/bin/65_ccusage_custom << 'EOF'
@@ -708,6 +744,7 @@ chmod +x ~/.byobu/bin/65_ccusage_custom
 ### 2. Integration with Other Tools
 
 **Integration with tmux:**
+
 ```bash
 # Add to tmux status bar
 cat >> ~/.tmux.conf << 'EOF'
@@ -719,6 +756,7 @@ tmux source-file ~/.tmux.conf
 ```
 
 **Integration with Starship Prompt:**
+
 ```toml
 # Add to ~/.config/starship.toml
 [custom.claude_usage]
@@ -731,6 +769,7 @@ style = "bold blue"
 ### 3. Conditional Display Logic
 
 **Show Only During Active Claude Sessions:**
+
 ```bash
 cat > ~/.byobu/bin/66_ccusage_smart << 'EOF'
 #!/bin/bash
@@ -757,6 +796,7 @@ chmod +x ~/.byobu/bin/66_ccusage_smart
 ### 4. Multi-Environment Setup
 
 **Development Machine Configuration:**
+
 ```bash
 # ~/.ccusage-dev.env
 CLAUDE_PLAN_TYPE="max_20x"
@@ -768,6 +808,7 @@ CCUSAGE_BYOBU_DEBUG="1"
 ```
 
 **Production Server Configuration:**
+
 ```bash
 # ~/.ccusage-prod.env
 CLAUDE_PLAN_TYPE="pro"
@@ -778,6 +819,7 @@ CCUSAGE_BYOBU_DEBUG="0"
 ```
 
 **Dynamic Environment Detection:**
+
 ```bash
 cat > ~/.byobu/bin/67_ccusage_env << 'EOF'
 #!/bin/bash

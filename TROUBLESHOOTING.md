@@ -42,11 +42,13 @@ CCUSAGE_BYOBU_DEBUG=1 ccusage-byobu
 ### Missing Dependencies
 
 **Symptoms:**
+
 - `ccusage command not found`
 - `ccusage-byobu: command not found`
 - `Node.js not found in PATH`
 
 **Diagnostic Commands:**
+
 ```bash
 # Check prerequisites
 which node && node --version
@@ -59,27 +61,30 @@ which byobu && byobu --version
 **Solutions:**
 
 1. **Install Node.js (version 18+):**
+
    ```bash
    # Using nvm (recommended)
    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
    nvm install 18
    nvm use 18
-   
+
    # Or download from https://nodejs.org/
    ```
 
 2. **Install ccusage:**
+
    ```bash
    npm install -g ccusage
-   
+
    # Verify installation
    ccusage --version
    ```
 
 3. **Install ccusage-byobu:**
+
    ```bash
    npm install -g ccusage-byobu
-   
+
    # Or from source
    git clone https://github.com/adawalli/ccusage-byobu.git
    cd ccusage-byobu
@@ -87,13 +92,14 @@ which byobu && byobu --version
    ```
 
 4. **Install byobu:**
+
    ```bash
    # Ubuntu/Debian
    sudo apt-get install byobu
-   
+
    # macOS
    brew install byobu
-   
+
    # CentOS/RHEL
    sudo yum install byobu
    ```
@@ -101,6 +107,7 @@ which byobu && byobu --version
 ### Permission Errors
 
 **Symptoms:**
+
 - `EACCES: permission denied`
 - `EPERM: operation not permitted`
 - `Permission denied creating byobu bin directory`
@@ -108,6 +115,7 @@ which byobu && byobu --version
 **Solutions:**
 
 1. **Fix npm global permissions:**
+
    ```bash
    mkdir ~/.npm-global
    npm config set prefix '~/.npm-global'
@@ -117,16 +125,18 @@ which byobu && byobu --version
    ```
 
 2. **Manual byobu directory creation:**
+
    ```bash
    mkdir -p ~/.byobu/bin
    chmod 755 ~/.byobu/bin
    ```
 
 3. **Fix script permissions:**
+
    ```bash
    # Make scripts executable
    chmod +x ~/.byobu/bin/*_ccusage
-   
+
    # Check permissions
    ls -la ~/.byobu/bin/
    ```
@@ -134,15 +144,17 @@ which byobu && byobu --version
 ### Version Compatibility
 
 **Symptoms:**
+
 - `SyntaxError: Unexpected token 'import'`
 - `ReferenceError: fetch is not defined`
 
 **Solutions:**
 
 1. **Update Node.js to version 18+:**
+
    ```bash
    node --version  # Should be 18.0.0 or higher
-   
+
    # Update if needed
    nvm install 18 && nvm use 18
    ```
@@ -160,11 +172,13 @@ which byobu && byobu --version
 ### Invalid Environment Variables
 
 **Symptoms:**
+
 - `Invalid value for CCUSAGE_BYOBU_THRESHOLD`
 - `Invalid refresh interval`
 - `Invalid plan type`
 
 **Diagnostic Commands:**
+
 ```bash
 # Check all ccusage-related variables
 env | grep -E "CLAUDE|CCUSAGE"
@@ -176,12 +190,14 @@ ccusage-byobu --config
 **Solutions:**
 
 1. **Valid threshold values (0-100):**
+
    ```bash
    export CCUSAGE_BYOBU_THRESHOLD="80"  # Valid
    unset CCUSAGE_BYOBU_THRESHOLD="abc"  # Invalid
    ```
 
 2. **Valid refresh intervals (5-3600 seconds):**
+
    ```bash
    export CCUSAGE_BYOBU_REFRESH="60"    # Valid
    unset CCUSAGE_BYOBU_REFRESH="0"      # Invalid (too low)
@@ -189,6 +205,7 @@ ccusage-byobu --config
    ```
 
 3. **Valid plan types:**
+
    ```bash
    # Current valid plan types
    export CLAUDE_PLAN_TYPE="free"       # Valid
@@ -196,7 +213,7 @@ ccusage-byobu --config
    export CLAUDE_PLAN_TYPE="max_5x"     # Valid
    export CLAUDE_PLAN_TYPE="max_20x"    # Valid
    export CLAUDE_PLAN_TYPE="enterprise" # Valid
-   
+
    # Legacy plan migration
    unset CLAUDE_PLAN_TYPE="team"        # Legacy - use migration tool
    ```
@@ -204,22 +221,25 @@ ccusage-byobu --config
 ### Legacy Plan Type Migration
 
 **Symptoms:**
+
 - `Legacy plan type detected: "team"`
 - Plan migration warnings
 
 **Solutions:**
 
 1. **Use migration tool:**
+
    ```bash
    ./install-ccusage-byobu.sh --migrate
    ```
 
 2. **Manual migration:**
+
    ```bash
    # Replace legacy 'team' plan
    unset CLAUDE_PLAN_TYPE
    export CLAUDE_PLAN_TYPE="max_5x"  # or "max_20x" for high usage
-   
+
    # Update shell profile
    sed -i 's/CLAUDE_PLAN_TYPE="team"/CLAUDE_PLAN_TYPE="max_5x"/' ~/.bashrc
    source ~/.bashrc
@@ -228,6 +248,7 @@ ccusage-byobu --config
 ### Configuration File Issues
 
 **Symptoms:**
+
 - `Configuration file not found`
 - `Invalid JSON in configuration file`
 - `Configuration validation errors`
@@ -235,10 +256,11 @@ ccusage-byobu --config
 **Solutions:**
 
 1. **Fix JSON syntax:**
+
    ```bash
    # Validate JSON file
    cat ~/.ccusage-byobu.json | jq .
-   
+
    # Example valid JSON
    cat > ~/.ccusage-byobu.json << 'EOF'
    {
@@ -251,6 +273,7 @@ ccusage-byobu --config
    ```
 
 2. **Check file permissions:**
+
    ```bash
    chmod 644 ~/.ccusage-byobu.json
    ```
@@ -273,11 +296,13 @@ ccusage-byobu --config
 ### ccusage Command Execution Failures
 
 **Symptoms:**
+
 - `Failed to execute ccusage command`
 - `ccusage command timed out`
 - `ccusage command failed with exit code N`
 
 **Diagnostic Commands:**
+
 ```bash
 # Test ccusage directly
 ccusage blocks --json --offline
@@ -292,40 +317,44 @@ timeout 30s ccusage blocks --json --offline
 **Solutions:**
 
 1. **Command not found (ENOENT):**
+
    ```bash
    # Reinstall ccusage
    npm install -g ccusage
-   
+
    # Check PATH
    echo $PATH | grep npm
    ```
 
 2. **Permission denied (EACCES):**
+
    ```bash
    # Check ccusage permissions
    ls -la $(which ccusage)
-   
+
    # Fix if needed
    chmod +x $(which ccusage)
    ```
 
 3. **Timeout issues:**
+
    ```bash
    # Check network connectivity
    ping api.anthropic.com
-   
+
    # Test offline mode
    ccusage blocks --json --offline
-   
+
    # Increase timeout (30s default)
    # Code automatically handles timeouts
    ```
 
 4. **API authentication issues:**
+
    ```bash
    # Check Claude credentials
    ccusage auth status
-   
+
    # Re-authenticate if needed
    ccusage auth login
    ```
@@ -333,11 +362,13 @@ timeout 30s ccusage blocks --json --offline
 ### JSON Parsing Errors
 
 **Symptoms:**
+
 - `Failed to parse ccusage JSON output`
 - `Invalid ccusage output: expected JSON object`
 - `Unexpected token in JSON`
 
 **Diagnostic Commands:**
+
 ```bash
 # Check raw ccusage output
 ccusage blocks --json --offline > /tmp/ccusage-output.json
@@ -350,19 +381,21 @@ jq . /tmp/ccusage-output.json
 **Solutions:**
 
 1. **Corrupted output:**
+
    ```bash
    # Clear any cached data
    ccusage cache clear
-   
+
    # Test fresh output
    ccusage blocks --json --offline
    ```
 
 2. **Unexpected output format:**
+
    ```bash
    # Check ccusage version compatibility
    ccusage --version
-   
+
    # Update if needed
    npm update -g ccusage
    ```
@@ -376,6 +409,7 @@ jq . /tmp/ccusage-output.json
 ### Process and Memory Issues
 
 **Symptoms:**
+
 - `Process killed by signal SIGTERM`
 - High memory usage
 - Hanging processes
@@ -383,22 +417,24 @@ jq . /tmp/ccusage-output.json
 **Solutions:**
 
 1. **Process cleanup:**
+
    ```bash
    # Kill hanging ccusage processes
    pkill -f ccusage
-   
+
    # Restart byobu
    byobu kill-server && byobu
    ```
 
 2. **Memory optimization:**
+
    ```bash
    # Disable debug mode
    unset CCUSAGE_BYOBU_DEBUG
-   
+
    # Use compact format
    export CCUSAGE_BYOBU_FORMAT="compact"
-   
+
    # Increase refresh interval
    export CCUSAGE_BYOBU_REFRESH="120"
    ```
@@ -410,11 +446,13 @@ jq . /tmp/ccusage-output.json
 ### Byobu Status Not Updating
 
 **Symptoms:**
+
 - Status bar shows old data
 - No ccusage information in byobu
 - Empty status bar section
 
 **Diagnostic Commands:**
+
 ```bash
 # Check installed scripts
 ls -la ~/.byobu/bin/*ccusage*
@@ -429,34 +467,38 @@ byobu-status --list
 **Solutions:**
 
 1. **Script not installed:**
+
    ```bash
    ccusage-byobu --install
-   
+
    # Or reinstall with specific interval
    ccusage-byobu --uninstall
    ccusage-byobu --install --refresh=60
    ```
 
 2. **Script not executable:**
+
    ```bash
    chmod +x ~/.byobu/bin/*_ccusage
    ```
 
 3. **Byobu configuration:**
+
    ```bash
    # Restart byobu server
    byobu kill-server
    byobu
-   
+
    # Check byobu status
    byobu-status
    ```
 
 4. **Multiple script conflicts:**
+
    ```bash
    # List all installed scripts
    ls ~/.byobu/bin/*_ccusage
-   
+
    # Remove conflicting scripts
    ccusage-byobu --uninstall-all
    ccusage-byobu --install --refresh=60
@@ -465,6 +507,7 @@ byobu-status --list
 ### Color and Formatting Issues
 
 **Symptoms:**
+
 - No colors in output
 - Malformed progress bars
 - Incorrect text formatting
@@ -472,31 +515,34 @@ byobu-status --list
 **Solutions:**
 
 1. **Terminal color support:**
+
    ```bash
    # Test color support
    echo $TERM
-   
+
    # Force colors
    export CCUSAGE_BYOBU_COLORS="true"
-   
+
    # Or disable colors
    export CCUSAGE_BYOBU_COLORS="false"
    ```
 
 2. **Progress bar formatting:**
+
    ```bash
    # Switch to compact format if full format has issues
    export CCUSAGE_BYOBU_FORMAT="compact"
-   
+
    # Test output
    ccusage-byobu
    ```
 
 3. **Font and encoding issues:**
+
    ```bash
    # Check locale
    locale
-   
+
    # Set UTF-8 if needed
    export LC_ALL=en_US.UTF-8
    export LANG=en_US.UTF-8
@@ -505,6 +551,7 @@ byobu-status --list
 ### Incorrect Usage Data
 
 **Symptoms:**
+
 - Wrong time remaining
 - Incorrect cost calculations
 - Missing session data
@@ -512,19 +559,21 @@ byobu-status --list
 **Solutions:**
 
 1. **Session synchronization:**
+
    ```bash
    # Refresh ccusage data
    ccusage sync
-   
+
    # Clear cache
    ccusage cache clear
    ```
 
 2. **Plan type mismatch:**
+
    ```bash
    # Verify plan type
    ccusage account info
-   
+
    # Update environment
    export CLAUDE_PLAN_TYPE="your_actual_plan"
    ```
@@ -536,11 +585,13 @@ byobu-status --list
 ### Slow Response Times
 
 **Symptoms:**
+
 - Long delays before status updates
 - High CPU usage
 - Frequent timeouts
 
 **Diagnostic Commands:**
+
 ```bash
 # Benchmark performance
 ccusage-byobu-benchmark
@@ -552,16 +603,18 @@ CCUSAGE_BYOBU_DEBUG=1 ccusage-byobu
 **Solutions:**
 
 1. **Enable caching:**
+
    ```bash
    # Enable caching for interactive use
    export CCUSAGE_ENABLE_CACHE="1"
-   
+
    # Adjust cache settings
    export CCUSAGE_BYOBU_CACHE_CLEANUP_INTERVAL="30000"
    export CCUSAGE_BYOBU_CACHE_MAX_KEYS="100"
    ```
 
 2. **Optimize refresh interval:**
+
    ```bash
    # Increase refresh interval
    ccusage-byobu --uninstall
@@ -578,6 +631,7 @@ CCUSAGE_BYOBU_DEBUG=1 ccusage-byobu
 ### Memory Usage Problems
 
 **Symptoms:**
+
 - High memory consumption
 - Memory leaks
 - System slowdown
@@ -585,28 +639,31 @@ CCUSAGE_BYOBU_DEBUG=1 ccusage-byobu
 **Solutions:**
 
 1. **Monitor memory usage:**
+
    ```bash
    # Check memory usage
    CCUSAGE_BYOBU_DEBUG=1 ccusage-byobu --test
-   
+
    # Look for memory growth patterns
    ```
 
 2. **Cache optimization:**
+
    ```bash
    # Limit cache size
    export CCUSAGE_BYOBU_CACHE_MAX_KEYS="50"
    export CCUSAGE_BYOBU_CACHE_CLEANUP_INTERVAL="15000"
-   
+
    # Or disable caching entirely
    unset CCUSAGE_ENABLE_CACHE
    ```
 
 3. **Process management:**
+
    ```bash
    # Kill old processes
    pkill -f ccusage-byobu
-   
+
    # Restart byobu
    byobu kill-server && byobu
    ```
@@ -614,6 +671,7 @@ CCUSAGE_BYOBU_DEBUG=1 ccusage-byobu
 ### Cache Performance Issues
 
 **Symptoms:**
+
 - Cache misses despite enabled caching
 - Inconsistent performance
 - Cache-related errors
@@ -621,19 +679,21 @@ CCUSAGE_BYOBU_DEBUG=1 ccusage-byobu
 **Solutions:**
 
 1. **Cache configuration:**
+
    ```bash
    # Enable cache explicitly
    export CCUSAGE_ENABLE_CACHE="1"
-   
+
    # Check cache stats
    CCUSAGE_BYOBU_DEBUG=1 ccusage-byobu --test | grep -A 10 "Cache Statistics"
    ```
 
 2. **Cache troubleshooting:**
+
    ```bash
    # Clear cache
    rm -rf ~/.cache/ccusage* 2>/dev/null
-   
+
    # Restart with fresh cache
    ccusage-byobu
    ```
@@ -645,6 +705,7 @@ CCUSAGE_BYOBU_DEBUG=1 ccusage-byobu
 ### API Key and Authentication Issues
 
 **Symptoms:**
+
 - `Authentication failed`
 - `API key not found`
 - `Unauthorized` errors
@@ -652,29 +713,32 @@ CCUSAGE_BYOBU_DEBUG=1 ccusage-byobu
 **Solutions:**
 
 1. **Check Claude authentication:**
+
    ```bash
    # Check auth status
    ccusage auth status
-   
+
    # Re-authenticate
    ccusage auth login
    ```
 
 2. **API key configuration:**
+
    ```bash
    # Check if API key is set
    echo $CLAUDE_API_KEY
-   
+
    # Or check ccusage config
    ccusage config list
    ```
 
 3. **Configuration directory:**
+
    ```bash
    # Check Claude config directory
    echo $CLAUDE_CONFIG_DIR
    ls -la ~/.claude/
-   
+
    # Set if needed
    export CLAUDE_CONFIG_DIR="$HOME/.claude"
    ```
@@ -682,6 +746,7 @@ CCUSAGE_BYOBU_DEBUG=1 ccusage-byobu
 ### Plan Type and Limit Issues
 
 **Symptoms:**
+
 - Wrong usage limits displayed
 - Incorrect plan type warnings
 - Usage calculations don't match Claude Code
@@ -689,15 +754,17 @@ CCUSAGE_BYOBU_DEBUG=1 ccusage-byobu
 **Solutions:**
 
 1. **Verify actual plan:**
+
    ```bash
    # Check your actual Claude plan
    ccusage account info
-   
+
    # Update environment variable
    export CLAUDE_PLAN_TYPE="your_actual_plan_type"
    ```
 
 2. **Plan type validation:**
+
    ```bash
    # Valid plan types (2024)
    export CLAUDE_PLAN_TYPE="free"       # Free tier
@@ -708,10 +775,11 @@ CCUSAGE_BYOBU_DEBUG=1 ccusage-byobu
    ```
 
 3. **Usage sync issues:**
+
    ```bash
    # Force usage sync
    ccusage sync --force
-   
+
    # Clear local cache
    ccusage cache clear
    ```
@@ -719,6 +787,7 @@ CCUSAGE_BYOBU_DEBUG=1 ccusage-byobu
 ### Rate Limiting
 
 **Symptoms:**
+
 - `Rate limit exceeded`
 - Frequent request failures
 - Slow API responses
@@ -726,6 +795,7 @@ CCUSAGE_BYOBU_DEBUG=1 ccusage-byobu
 **Solutions:**
 
 1. **Increase refresh interval:**
+
    ```bash
    # Reduce API call frequency
    ccusage-byobu --uninstall
@@ -733,6 +803,7 @@ CCUSAGE_BYOBU_DEBUG=1 ccusage-byobu
    ```
 
 2. **Enable caching:**
+
    ```bash
    export CCUSAGE_ENABLE_CACHE="1"
    ```
@@ -750,6 +821,7 @@ CCUSAGE_BYOBU_DEBUG=1 ccusage-byobu
 ### Operating System Compatibility
 
 **macOS Issues:**
+
 ```bash
 # Install dependencies via Homebrew
 brew install node npm byobu
@@ -760,6 +832,7 @@ source ~/.zshrc
 ```
 
 **Linux Distribution Issues:**
+
 ```bash
 # Ubuntu/Debian
 sudo apt-get update
@@ -774,6 +847,7 @@ sudo pacman -S nodejs npm byobu
 ```
 
 **Windows (WSL) Issues:**
+
 ```bash
 # Install Node.js in WSL
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
@@ -786,6 +860,7 @@ sudo apt-get install byobu
 ### Shell Compatibility
 
 **Bash Configuration (`~/.bashrc`):**
+
 ```bash
 # Add to ~/.bashrc
 export CLAUDE_PLAN_TYPE="pro"
@@ -795,6 +870,7 @@ export PATH="$HOME/.npm-global/bin:$PATH"
 ```
 
 **Zsh Configuration (`~/.zshrc`):**
+
 ```bash
 # Add to ~/.zshrc
 export CLAUDE_PLAN_TYPE="pro"
@@ -804,6 +880,7 @@ export PATH="$HOME/.npm-global/bin:$PATH"
 ```
 
 **Fish Configuration (`~/.config/fish/config.fish`):**
+
 ```fish
 # Add to config.fish
 set -x CLAUDE_PLAN_TYPE "pro"
@@ -815,6 +892,7 @@ set -x PATH "$HOME/.npm-global/bin" $PATH
 ### tmux vs byobu Compatibility
 
 **tmux Integration:**
+
 ```bash
 # Add to ~/.tmux.conf
 set -g status-right '#(ccusage-byobu 2>/dev/null) | %Y-%m-%d %H:%M'
@@ -825,6 +903,7 @@ tmux source-file ~/.tmux.conf
 ```
 
 **byobu-tmux Backend:**
+
 ```bash
 # Check byobu backend
 byobu-launcher-install
@@ -868,12 +947,14 @@ CCUSAGE_BYOBU_DEBUG=1 ccusage-byobu --test | grep -A 20 "Memory Profiling"
 **Common Debug Output Patterns:**
 
 1. **Cache Performance:**
+
    ```
    Cache hit - retrieved cached result in 0.123ms
    Cache miss - executed ccusage command in 95.23ms
    ```
 
 2. **JSON Parsing:**
+
    ```
    JSON parsed in 2.15ms
    JSON size: 1.23KB
@@ -881,6 +962,7 @@ CCUSAGE_BYOBU_DEBUG=1 ccusage-byobu --test | grep -A 20 "Memory Profiling"
    ```
 
 3. **Memory Usage:**
+
    ```
    Startup memory: RSS 25MB, Heap 15MB
    Memory growth: 3MB RSS, 1.2MB Heap
@@ -913,6 +995,7 @@ cat ~/.byobu/status
 ### Network and Connectivity
 
 **Test connectivity:**
+
 ```bash
 # Test API connectivity
 curl -I https://api.anthropic.com
@@ -925,6 +1008,7 @@ timeout 10s ccusage blocks --json --offline
 ```
 
 **Proxy configuration:**
+
 ```bash
 # Set proxy if needed
 export HTTP_PROXY="http://proxy.company.com:8080"
@@ -937,6 +1021,7 @@ ccusage blocks --json --offline
 ### Process Debugging
 
 **Check running processes:**
+
 ```bash
 # Find ccusage processes
 ps aux | grep ccusage
@@ -949,6 +1034,7 @@ strace -e trace=process ccusage-byobu
 ```
 
 **Resource monitoring:**
+
 ```bash
 # Monitor during execution
 top -p $(pgrep ccusage)
@@ -963,6 +1049,7 @@ strace -c ccusage-byobu
 ### File System Issues
 
 **Permission debugging:**
+
 ```bash
 # Check file permissions
 ls -la ~/.byobu/bin/
@@ -979,6 +1066,7 @@ test -x ~/.byobu/bin/60_ccusage && echo "executable" || echo "not executable"
 ```
 
 **Disk space issues:**
+
 ```bash
 # Check disk space
 df -h ~
@@ -992,6 +1080,7 @@ du -sh ~/.npm/
 ### Recovery Procedures
 
 **Complete reset:**
+
 ```bash
 # 1. Remove all ccusage-byobu components
 ccusage-byobu --uninstall-all
@@ -1010,6 +1099,7 @@ ccusage-byobu --test
 ```
 
 **Byobu reset:**
+
 ```bash
 # Reset byobu configuration
 mv ~/.byobu ~/.byobu.backup
@@ -1020,6 +1110,7 @@ ccusage-byobu --install
 ```
 
 **Environment reset:**
+
 ```bash
 # Clear all ccusage environment variables
 unset $(env | grep -E "^(CLAUDE|CCUSAGE)" | cut -d= -f1)
@@ -1035,6 +1126,7 @@ source ~/.bashrc  # or ~/.zshrc
 ### Support Resources
 
 1. **Built-in diagnostics:**
+
    ```bash
    ccusage-byobu --help
    ccusage-byobu --test
@@ -1052,6 +1144,7 @@ source ~/.bashrc  # or ~/.zshrc
 ### Creating Bug Reports
 
 **Gather information:**
+
 ```bash
 # System information
 uname -a
@@ -1071,6 +1164,7 @@ CCUSAGE_BYOBU_DEBUG=1 ccusage-byobu 2>&1 | head -50
 ```
 
 **Include in bug report:**
+
 - Operating system and version
 - Node.js and npm versions
 - Complete error messages
@@ -1080,4 +1174,4 @@ CCUSAGE_BYOBU_DEBUG=1 ccusage-byobu 2>&1 | head -50
 
 ---
 
-*This troubleshooting guide covers the most common issues. For additional help, run `ccusage-byobu --test` to diagnose your specific setup.*
+_This troubleshooting guide covers the most common issues. For additional help, run `ccusage-byobu --test` to diagnose your specific setup._

@@ -7,7 +7,9 @@ After analyzing both the current custom cache implementation and the node-cache 
 ## Feature Comparison
 
 ### Current Custom Cache (lib/cache.js)
+
 ✅ **Advantages:**
+
 - Built-in statistics tracking (hits, misses, evictions, hit rate)
 - Memory usage estimation with detailed breakdown
 - Tailored specifically for ccusage-byobu needs
@@ -16,12 +18,15 @@ After analyzing both the current custom cache implementation and the node-cache 
 - Minimal dependencies (pure JavaScript)
 
 ❌ **Disadvantages:**
+
 - No max keys limit (could grow unbounded)
 - Fixed cleanup interval (30 seconds)
 - Less battle-tested than community packages
 
 ### node-cache Package
+
 ✅ **Advantages:**
+
 - Well-tested, widely used (1M+ weekly downloads)
 - Configurable cleanup intervals
 - Max keys limit to prevent memory bloat
@@ -29,6 +34,7 @@ After analyzing both the current custom cache implementation and the node-cache 
 - Key validation (string/number only)
 
 ❌ **Disadvantages:**
+
 - **No built-in statistics tracking** (critical for monitoring)
 - **No memory usage metrics** (important for debugging)
 - Would require wrapper code to maintain current API
@@ -50,6 +56,7 @@ After analyzing both the current custom cache implementation and the node-cache 
 ## Migration Cost vs. Benefit Analysis
 
 ### Migration Costs:
+
 - Refactor all cache usage in index.js
 - Create wrapper to add statistics tracking
 - Implement memory usage estimation externally
@@ -57,6 +64,7 @@ After analyzing both the current custom cache implementation and the node-cache 
 - Risk introducing bugs in working code
 
 ### Migration Benefits:
+
 - Community support (but our cache is simple enough)
 - Configurable cleanup (but 30s works well for our use case)
 - Max keys limit (but unlikely to be an issue for ccusage)

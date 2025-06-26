@@ -81,13 +81,13 @@ Enter your choice (1-5): 3
 Please specify your Claude configuration directory:
 Default: /Users/username/.claude
 
-Enter directory path (or press Enter for default): 
+Enter directory path (or press Enter for default):
 
 Please specify the refresh interval for byobu status (in seconds):
 Default: 60 seconds
 Range: 5-3600 seconds
 
-Enter refresh interval (or press Enter for default): 
+Enter refresh interval (or press Enter for default):
 
 Configuration summary:
   Claude plan type: max_5x
@@ -122,6 +122,7 @@ Next steps:
 ```
 
 #### Pros:
+
 - Complete setup with interactive configuration
 - Automatic prerequisite checking
 - Shell profile configuration
@@ -129,10 +130,12 @@ Next steps:
 - Migration support for legacy configurations
 
 #### Cons:
+
 - Requires internet connection
 - Downloads and executes script (security consideration)
 
 #### When to use:
+
 - First-time installation
 - Want full automated setup
 - Need interactive configuration guidance
@@ -182,6 +185,7 @@ export CCUSAGE_BYOBU_REFRESH="60"
 ```
 
 Then restart your terminal or run:
+
 ```bash
 source ~/.bashrc  # or ~/.zshrc
 ```
@@ -222,17 +226,20 @@ npm install -g ccusage-byobu
 ```
 
 #### Pros:
+
 - Standard Node.js installation method
 - Easy to update with `npm update -g ccusage-byobu`
 - No script execution security concerns
 - Familiar to Node.js developers
 
 #### Cons:
+
 - Requires manual configuration
 - May need npm permission setup
 - Separate byobu integration step
 
 #### When to use:
+
 - Prefer standard npm workflow
 - Want to control each installation step
 - Already have npm permissions configured
@@ -303,18 +310,21 @@ ccusage-byobu --install
 ```
 
 #### Pros:
+
 - No global installation required
 - Always uses latest version
 - Good for testing/evaluation
 - No npm permission issues
 
 #### Cons:
+
 - Slower startup (downloads on first use)
 - Unreliable for byobu integration
 - Network dependency
 - Cache may be cleared
 
 #### When to use:
+
 - Testing the tool before installing
 - Occasional usage without permanent installation
 - CI/CD environments
@@ -412,6 +422,7 @@ $ ccusage-byobu --test
 ```
 
 #### Pros:
+
 - Full source code access
 - Can modify and customize
 - Immediate testing of changes
@@ -419,12 +430,14 @@ $ ccusage-byobu --test
 - Debug capabilities
 
 #### Cons:
+
 - Requires git and development knowledge
 - More complex setup
 - Need to manage updates manually
 - Larger disk footprint
 
 #### When to use:
+
 - Contributing to the project
 - Need custom modifications
 - Learning how the tool works
@@ -537,18 +550,21 @@ $ ccusage-byobu --test
 ```
 
 #### Pros:
+
 - No package manager dependencies
 - Full control over installation location
 - Works in restricted environments
 - Can create custom deployment packages
 
 #### Cons:
+
 - Complex manual steps
 - Manual update process
 - Requires understanding of the file structure
 - More error-prone
 
 #### When to use:
+
 - Package managers not available
 - Restricted environments
 - Creating deployment packages
@@ -569,20 +585,21 @@ export CLAUDE_PLAN_TYPE="max_5x"
 ```
 
 Valid plan types:
+
 - `free` - Claude Free plan
-- `pro` - Claude Pro plan  
+- `pro` - Claude Pro plan
 - `max_5x` - Claude Max (5x) plan
 - `max_20x` - Claude Max (20x) plan
 - `enterprise` - Claude Enterprise plan
 
 ### Environment Variables
 
-| Variable | Description | Default | Example |
-|----------|-------------|---------|---------|
-| `CLAUDE_PLAN_TYPE` | Your Claude plan type (required) | none | `max_5x` |
-| `CLAUDE_CONFIG_DIR` | Claude configuration directory | `~/.claude` | `/custom/path` |
-| `CCUSAGE_BYOBU_REFRESH` | Byobu refresh interval (seconds) | `60` | `30` |
-| `CCUSAGE_BYOBU_DEBUG` | Enable debug output | `false` | `true` |
+| Variable                | Description                      | Default     | Example        |
+| ----------------------- | -------------------------------- | ----------- | -------------- |
+| `CLAUDE_PLAN_TYPE`      | Your Claude plan type (required) | none        | `max_5x`       |
+| `CLAUDE_CONFIG_DIR`     | Claude configuration directory   | `~/.claude` | `/custom/path` |
+| `CCUSAGE_BYOBU_REFRESH` | Byobu refresh interval (seconds) | `60`        | `30`           |
+| `CCUSAGE_BYOBU_DEBUG`   | Enable debug output              | `false`     | `true`         |
 
 ### Byobu Status Bar Configuration
 
@@ -594,7 +611,7 @@ The byobu integration creates scripts in `~/.byobu/bin/` with names like `60_ccu
 # 30-second refresh
 ccusage-byobu --install --refresh=30
 
-# 2-minute refresh  
+# 2-minute refresh
 ccusage-byobu --install --refresh=120
 ```
 
@@ -623,6 +640,7 @@ ccusage-byobu --test
 ```
 
 Expected output:
+
 ```
 ✓ Node.js version: v18.17.0 (supported)
 ✓ ccusage command available
@@ -659,6 +677,7 @@ Error: ccusage-byobu requires Node.js 18.0.0 or higher
 ```
 
 **Solution:**
+
 ```bash
 # Update Node.js using Node Version Manager
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
@@ -674,6 +693,7 @@ Error: EACCES: permission denied, mkdir '/usr/local/lib/node_modules'
 ```
 
 **Solution:**
+
 ```bash
 # Configure npm to use home directory
 mkdir ~/.npm-global
@@ -689,6 +709,7 @@ Error: ccusage command not found
 ```
 
 **Solution:**
+
 ```bash
 # Install ccusage separately
 npm install -g ccusage
@@ -704,6 +725,7 @@ No ccusage metrics showing in byobu status bar
 ```
 
 **Solutions:**
+
 ```bash
 # Check if script exists and is executable
 ls -la ~/.byobu/bin/*_ccusage
@@ -726,6 +748,7 @@ Warning: CLAUDE_PLAN_TYPE not configured
 ```
 
 **Solution:**
+
 ```bash
 # Add to shell profile
 echo 'export CLAUDE_PLAN_TYPE="max_5x"' >> ~/.bashrc
@@ -746,12 +769,12 @@ If you encounter issues:
 
 ## Summary
 
-| Method | Complexity | Best For | Byobu Integration |
-|--------|------------|----------|-------------------|
-| **One-liner installer** | Low | First-time users, complete setup | ✅ Automatic |
-| **NPM global** | Medium | Node.js users, standard workflow | ✅ Manual setup |
-| **NPX** | Low | Testing, occasional use | ⚠️ Limited |
-| **Development** | High | Contributors, customization | ✅ Manual setup |
-| **Manual** | High | Restricted environments | ✅ Manual setup |
+| Method                  | Complexity | Best For                         | Byobu Integration |
+| ----------------------- | ---------- | -------------------------------- | ----------------- |
+| **One-liner installer** | Low        | First-time users, complete setup | ✅ Automatic      |
+| **NPM global**          | Medium     | Node.js users, standard workflow | ✅ Manual setup   |
+| **NPX**                 | Low        | Testing, occasional use          | ⚠️ Limited        |
+| **Development**         | High       | Contributors, customization      | ✅ Manual setup   |
+| **Manual**              | High       | Restricted environments          | ✅ Manual setup   |
 
 Choose the installation method that best fits your needs and environment. The one-liner installer is recommended for most users, while npm global install offers more control for experienced Node.js users.
