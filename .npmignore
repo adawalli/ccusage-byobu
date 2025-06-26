@@ -1,0 +1,88 @@
+# Development files
+*.log
+*.pid
+*.seed
+*.pid.lock
+.DS_Store
+.env*
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Test files
+test/
+test-*.js
+*.test.js
+*.spec.js
+coverage/
+.nyc_output/
+
+# Documentation sources (keep README.md and other user docs)
+docs/
+CLAUDE.md
+INSTALLATION.md
+
+# Examples and scripts
+examples/
+install-ccusage-byobu.sh
+
+# Configuration files
+.eslintrc*
+.prettierrc*
+.gitignore
+.gitleaks.toml
+.husky/
+.git/
+.github/
+.taskmaster/
+.claude/
+.mcp.json
+commitlint.config.js
+eslint.config.js
+
+# Build artifacts
+*.tgz
+dist/
+build/
+.cache/
+
+# CI/CD
+.travis.yml
+.gitlab-ci.yml
+.circleci/
+appveyor.yml
+
+# Editor directories
+.vscode/
+.idea/
+*.sublime-*
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Package manager files (keep package.json)
+yarn.lock
+pnpm-lock.yaml
+.yarn/
+.pnp.*
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Development dependencies
+node_modules/
+
+# Keep these files
+!README.md
+!LICENSE
+!USAGE_EXAMPLES.md
+!TROUBLESHOOTING.md
+!package.json
+!bin/
+!lib/

@@ -138,11 +138,13 @@ The `environment-aware.sh` script automatically adjusts settings based on enviro
 ### Development Workflow
 
 1. Load development configuration:
+
    ```bash
    source examples/configurations/development.env
    ```
 
 2. Install with fast refresh:
+
    ```bash
    ccusage-byobu --install
    ```
@@ -156,11 +158,13 @@ The `environment-aware.sh` script automatically adjusts settings based on enviro
 ### Production Deployment
 
 1. Load production configuration:
+
    ```bash
    source examples/configurations/production.env
    ```
 
 2. Install with conservative settings:
+
    ```bash
    ccusage-byobu --install
    ```
@@ -174,6 +178,7 @@ The `environment-aware.sh` script automatically adjusts settings based on enviro
 ### Team Environment
 
 1. Share configuration file:
+
    ```bash
    # On shared storage
    ccusage-byobu --config=/shared/team/ccusage-config.json
@@ -220,11 +225,13 @@ ls -la ~/.byobu/bin/*ccusage*
 ### Creating Your Own Configuration
 
 1. Copy an existing configuration:
+
    ```bash
    cp examples/configurations/development.env ~/.ccusage-custom.env
    ```
 
 2. Modify as needed:
+
    ```bash
    vim ~/.ccusage-custom.env
    ```
@@ -238,6 +245,7 @@ ls -la ~/.byobu/bin/*ccusage*
 ### Creating Custom Scripts
 
 1. Start with an existing script:
+
    ```bash
    cp examples/byobu-scripts/custom-format.sh ~/.byobu/bin/70_my_custom
    ```
