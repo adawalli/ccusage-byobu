@@ -388,56 +388,56 @@
       {
         "id": 7,
         "title": "Handle Multiple Active Sessions",
-        "description": "Implement logic to handle multiple concurrent Claude Code sessions gracefully - currently deferred pending user needs assessment",
-        "status": "deferred",
+        "description": "Task cancelled - API design only allows one active session at a time. A session is defined as a single 5-hour active block, and there cannot be multiple concurrent active sessions.",
+        "status": "cancelled",
         "dependencies": [
           6
         ],
         "priority": "medium",
-        "details": "This feature would parse JSON output to identify all active sessions (isActive == true) and implement strategies for handling multiple sessions: show most recent/active, aggregate costs, or rotate display. Would calculate combined usage metrics if showing aggregated view and add indicator when multiple sessions are active (e.g., '+2' suffix). Currently deferred as the existing single-session implementation may be sufficient for most users. Need to gather user feedback and usage data to determine if multi-session support is actually needed before proceeding with implementation.",
-        "testStrategy": "If implemented: Test with 0, 1, 2, and 3+ active sessions, verify aggregation logic, test session prioritization, validate character limit compliance with multiple sessions. Prior to implementation: gather usage analytics to confirm multi-session scenarios are common enough to warrant development.",
+        "details": "This task was initially planned to handle multiple concurrent Claude Code sessions. However, based on API design clarification, there can only be one active session at a time. A session is defined as a single 5-hour active block. The API only ever shows one active session, making this functionality unnecessary. The existing single-session implementation is the correct approach.",
+        "testStrategy": "No testing required - task cancelled due to API design constraints.",
         "subtasks": [
           {
             "id": 1,
             "title": "Parse Multiple Sessions Data",
-            "description": "Develop logic to parse and manage data from multiple concurrent sessions, ensuring accurate extraction and storage of session details.",
-            "status": "deferred",
+            "description": "Cancelled - Not needed as API only returns one active session at a time.",
+            "status": "cancelled",
             "dependencies": [],
-            "details": "Implement data structures and parsing algorithms to handle multiple session inputs concurrently, maintaining session identifiers, timestamps, and relevant metadata.",
+            "details": "Cancelled due to API design clarification that only one active session can exist at a time.",
             "testStrategy": ""
           },
           {
             "id": 2,
             "title": "Implement Display Strategies for Sessions",
-            "description": "Create display mechanisms to present session data using different strategies: most recent session, aggregate view, and rotating display of sessions.",
-            "status": "pending",
+            "description": "Cancelled - Not applicable with single active session design.",
+            "status": "cancelled",
             "dependencies": [
               1
             ],
-            "details": "Design UI components or output formats that can switch between showing the most recent session, aggregating data across sessions, or rotating through sessions in a timed or triggered manner.",
+            "details": "Cancelled as there will only ever be one active session to display.",
             "testStrategy": ""
           },
           {
             "id": 3,
             "title": "Calculate Usage Metrics Across Sessions",
-            "description": "Develop algorithms to compute usage metrics such as session duration, frequency, concurrency, and aggregate statistics from parsed session data.",
-            "status": "pending",
+            "description": "Cancelled - Metrics only need to be calculated for single active session.",
+            "status": "cancelled",
             "dependencies": [
               1
             ],
-            "details": "Define and implement metric calculations that can be applied per session and across multiple sessions to support display strategies and performance analysis.",
+            "details": "Cancelled as aggregation across multiple active sessions is not possible by design.",
             "testStrategy": ""
           },
           {
             "id": 4,
             "title": "Format Display Output Within UI Constraints",
-            "description": "Implement formatting logic to ensure session data and metrics are displayed clearly and concisely within given UI or output limits, handling truncation, pagination, or summarization as needed.",
-            "status": "pending",
+            "description": "Cancelled - Single session display already implemented.",
+            "status": "cancelled",
             "dependencies": [
               2,
               3
             ],
-            "details": "Apply formatting rules and constraints to session displays, balancing detail and readability, and integrating usage metrics into the final presentation.",
+            "details": "Cancelled as formatting for single session display is already handled in the existing implementation.",
             "testStrategy": ""
           }
         ]
@@ -834,7 +834,7 @@
           8,
           12
         ],
-        "status": "pending",
+        "status": "cancelled",
         "subtasks": [
           {
             "id": 1,
@@ -842,7 +842,7 @@
             "description": "Establish the web hosting environment including server provisioning, configuration management, and scalability setup.",
             "dependencies": [],
             "details": "Provision servers using cloud or dedicated hardware, configure using tools like Ansible or Puppet for automation, and implement vertical and horizontal scaling strategies to ensure availability and performance under load.",
-            "status": "pending",
+            "status": "cancelled",
             "testStrategy": ""
           },
           {
@@ -853,7 +853,7 @@
               1
             ],
             "details": "Integrate a CDN service to distribute static and dynamic content globally, configure caching policies at the server and CDN level to improve load times and reduce bandwidth usage.",
-            "status": "pending",
+            "status": "cancelled",
             "testStrategy": ""
           },
           {
@@ -864,7 +864,7 @@
               1
             ],
             "details": "Set up a version control system for scripts, automate deployment pipelines to handle versioned assets, and ensure backward compatibility and cache busting for client-side scripts.",
-            "status": "pending",
+            "status": "cancelled",
             "testStrategy": ""
           },
           {
@@ -875,7 +875,7 @@
               1
             ],
             "details": "Use monitoring solutions like Nagios, Zabbix, or Prometheus for server metrics, implement log analysis for diagnostics, and integrate analytics platforms to gather user behavior data and system usage statistics.",
-            "status": "pending",
+            "status": "cancelled",
             "testStrategy": ""
           }
         ]
@@ -883,56 +883,45 @@
       {
         "id": 14,
         "title": "Implement Advanced Display Features",
-        "description": "Add advanced visual features like remaining time estimates and session indicators",
-        "details": "Enhance display format with remaining time estimates (Xh XXm format). Add session count indicator for multiple active sessions. Implement smart truncation for long displays. Add optional extended format mode. Consider animated progress indicators (if byobu supports). Add cost trend indicators (↑↓→). Implement smart rounding for cost display. Add optional timestamp for last update.",
-        "testStrategy": "Test time estimation accuracy, verify session count display, test truncation logic with various input lengths, validate all visual indicators render correctly across different terminals",
-        "priority": "low",
+        "description": "Add advanced visual features like remaining time estimates and visual indicators for single session display",
+        "status": "in-progress",
         "dependencies": [
           12
         ],
-        "status": "pending",
+        "priority": "low",
+        "details": "Enhance display format with remaining time estimates (Xh XXm format) for the current 5-hour session. Implement smart truncation for long displays. Add optional extended format mode. Consider animated progress indicators (if byobu supports). Add cost trend indicators (↑↓→). Implement smart rounding for cost display. Add optional timestamp for last update. Display should clearly show time remaining in the active session.",
+        "testStrategy": "Test time estimation accuracy for 5-hour sessions, test truncation logic with various input lengths, validate all visual indicators render correctly across different terminals, verify single session display updates properly",
         "subtasks": [
           {
             "id": 1,
             "title": "Implement Time Estimate Display",
-            "description": "Develop the feature to calculate and display estimated time for tasks or sessions, ensuring accuracy and clarity in the UI.",
+            "description": "Develop the feature to calculate and display estimated time remaining in the current 5-hour session, ensuring accuracy and clarity in the UI.",
+            "status": "done",
             "dependencies": [],
-            "details": "This subtask involves designing the logic to compute time estimates based on input data and integrating a visual component to show these estimates to users.",
-            "status": "pending",
+            "details": "This subtask involves designing the logic to compute time remaining based on session start time and the 5-hour duration, integrating a visual component to show these estimates to users in Xh XXm format.\n<info added on 2025-06-27T01:15:22.598Z>\nAfter analyzing the codebase, the time remaining display functionality is already fully implemented in lib/index.js. The existing implementation extracts remainingMinutes from activeSession.projection.remainingMinutes and formats it as \"Xh XXm\" format (lines 591-592). The system uses 300 minutes (5 hours) as the total session duration and successfully displays the remaining time in the byobu status bar. The feature is functioning correctly as specified. No additional implementation work is required for this subtask.\n</info added on 2025-06-27T01:15:22.598Z>",
             "testStrategy": ""
           },
           {
             "id": 2,
-            "title": "Create Session Count Indicator",
-            "description": "Build a visual indicator that shows the number of sessions, updating dynamically as sessions are added or removed.",
+            "title": "Develop Truncation Logic",
+            "description": "Implement logic to truncate long text or data fields to maintain UI cleanliness and readability without losing essential information.",
+            "status": "in-progress",
             "dependencies": [
               1
             ],
-            "details": "This includes designing the UI element for session count and implementing the logic to track and update the count in real-time or on relevant events.",
-            "status": "pending",
+            "details": "This subtask requires defining truncation rules, handling edge cases, and ensuring truncated content can be expanded or viewed fully if needed.\n<info added on 2025-06-27T01:18:05.075Z>\nConfiguration and implementation of flexible display truncation:\n\nThe truncation system has been built with a configurable maxWidth parameter that defaults to 50 characters and can be customized through the CCUSAGE_BYOBU_MAXWIDTH environment variable. The system intelligently handles cost display formatting by converting values >= 1000 to \"1.2k\" format with proper rounding, and showing \"$$$\" for values >= 100.\n\nKey implementation details:\n- Smart width management automatically removes the progress bar when the total display exceeds maxWidth to prioritize essential information\n- Time displays gracefully degrade for long sessions, converting 100+ hour sessions into day representations\n- The config.js module now includes validation logic to ensure maxWidth values are properly constrained and handled\n- Comprehensive testing confirms proper truncation behavior across various width configurations, from minimal displays to full-width presentations\n\nThe truncation logic preserves readability while accommodating narrow terminal windows and byobu status bars, ensuring the display remains functional even in constrained environments.\n</info added on 2025-06-27T01:18:05.075Z>",
             "testStrategy": ""
           },
           {
             "id": 3,
-            "title": "Develop Truncation Logic",
-            "description": "Implement logic to truncate long text or data fields to maintain UI cleanliness and readability without losing essential information.",
-            "dependencies": [
-              1
-            ],
-            "details": "This subtask requires defining truncation rules, handling edge cases, and ensuring truncated content can be expanded or viewed fully if needed.",
-            "status": "pending",
-            "testStrategy": ""
-          },
-          {
-            "id": 4,
             "title": "Add Animated and Extended Visual Features",
-            "description": "Enhance the user interface with animations and extended visual elements to improve user experience and engagement.",
-            "dependencies": [
-              2,
-              3
-            ],
-            "details": "This involves creating smooth animations for transitions, hover effects, and extended visuals that complement the time estimate and session count features.",
+            "description": "Enhance the user interface with animations and extended visual elements to improve user experience and engagement for single session display.",
             "status": "pending",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "This involves creating smooth animations for transitions, hover effects, progress indicators, cost trend indicators (↑↓→), and extended visuals that complement the time estimate display. Include smart rounding for cost display and optional timestamp for last update.\n<info added on 2025-06-27T01:18:26.859Z>\nBased on the block data analysis, implement the following enhancements to the display features:\n\nBlock Data Integration:\n- Display model names from the models array for each block, handling multiple models and \"<synthetic>\" entries appropriately\n- Show cache efficiency metrics by calculating the ratio of cacheReadInputTokens to total tokens\n- Implement visual indicators for gap blocks (isGap: true) to show inactive periods clearly\n- Create a token breakdown visualization showing direct vs cache tokens with their relative proportions\n\nCost and Performance Displays:\n- Add detailed cost breakdowns showing which tokens contribute to charges (excluding cache read tokens)\n- Display the difference between scheduled endTime and actualEndTime when they diverge\n- Show entry counts per block to indicate API call density\n- Prepare UI placeholders for future burnRate and projection data when these become available\n\nVisual Enhancements:\n- Design distinct visual treatments for active blocks (isActive: true) vs completed blocks\n- Create hover tooltips showing full token breakdowns including cache creation and read tokens\n- Implement color coding or icons for different model types in multi-model blocks\n- Add visual indicators for blocks with high cache utilization (e.g., when cache tokens > 10x direct tokens)\n</info added on 2025-06-27T01:18:26.859Z>\n<info added on 2025-06-27T01:23:16.852Z>\nGiven the limited real estate of a CLI status display, the feasibility analysis of the proposed visual improvements is as follows:\n\n1) Block Data Integration Features:\n- Displaying model names from the models array is feasible but should be limited to concise identifiers or abbreviations to avoid clutter.\n- Showing cache efficiency metrics as a simple ratio or percentage is practical if represented with minimal text or a compact symbol.\n- Visual indicators for gap blocks can be implemented using simple characters or color changes to denote inactive periods without consuming much space.\n- Token breakdown visualization is likely too complex for a small CLI area; a simplified summary or toggleable detailed view would be more practical.\n\n2) Cost and Performance Displays:\n- Detailed cost breakdowns may overwhelm the interface; instead, a summarized cost figure with an optional expanded view is advisable.\n- Displaying differences between scheduled and actual end times can be shown as a small delta value or symbol.\n- Entry counts per block can be represented with a simple numeric indicator or icon.\n- UI placeholders for future burnRate and projection data should be minimal or omitted until data is available to avoid unnecessary clutter.\n\n3) Visual Enhancements:\n- Distinct visual treatments for active vs completed blocks can be achieved with color coding or simple text styles (e.g., bold or underline).\n- Hover tooltips are not applicable in CLI environments; instead, consider keypress-activated detailed views or separate logs.\n- Color coding or icons for different model types should be minimal and use standard terminal colors or simple ASCII symbols.\n- Visual indicators for high cache utilization can be represented with a simple marker or color highlight.\n\nOverall, the most practical approach is to prioritize concise, symbolic, or color-coded representations that convey essential information at a glance without overwhelming the user. Complex visualizations and detailed breakdowns should be optional or accessible through secondary commands or expanded views rather than the main status area. This balance ensures clarity and usability within the constraints of a compact terminal interface.\n</info added on 2025-06-27T01:23:16.852Z>\n<info added on 2025-06-27T01:24:17.136Z>\nRefactored task scope for CLI constraints:\n\nDisplay Format: [Model] trend cache% time (calls)\nExample: [C3.5S] ↑ 95% 2m (42)\n\nCore Features:\n- Model abbreviations: Map common models to short codes (claude-3-5-sonnet → C3.5S, gpt-4o → G4O)\n- Cache efficiency: Display as simple percentage when cacheReadInputTokens > 0\n- Cost trend indicators: Compare current vs previous block costs (↑ increasing, ↓ decreasing, → stable)\n- Entry count: Show API call count in parentheses\n- Active/inactive states: Use terminal colors (green=active, gray=inactive, yellow=gap)\n- Time delta: Show \"+Xs\" suffix when actualEndTime exceeds scheduledEndTime by >5s\n\nImplementation approach:\n1. Create model abbreviation mapping for top 10 most common models\n2. Calculate cache percentage as (cacheReadInputTokens / totalInputTokens * 100)\n3. Store previous block cost for trend calculation\n4. Use ANSI escape codes for color differentiation\n5. Format all components into fixed-width columns for alignment\n6. Omit time delta when display width < 80 chars\n\nRemoved features:\n- Token breakdown visualizations\n- Detailed cost breakdowns\n- Hover tooltips and animations\n- UI placeholders for future data\n- Complex visual treatments beyond basic colors\n- Multi-line or expandable displays\n</info added on 2025-06-27T01:24:17.136Z>",
             "testStrategy": ""
           }
         ]
@@ -1175,11 +1164,24 @@
             "testStrategy": ""
           }
         ]
+      },
+      {
+        "id": 20,
+        "title": "Migrate configuration storage to XDG Base Directory compliant location",
+        "description": "Migrate configuration storage from modifying shell RC files (.zshrc, .bashrc) to XDG Base Directory compliant location (~/.config/ccusage-byobu/) with proper config precedence and backward compatibility.",
+        "details": "Implement XDG Base Directory specification compliant configuration management: 1) Create config directory at ~/.config/ccusage-byobu/ with proper permissions (0755). 2) Define config file hierarchy: user config (~/.config/ccusage-byobu/config.json) > system config (/etc/ccusage-byobu/config.json) > defaults (embedded in code). 3) Implement config loading logic that checks XDG_CONFIG_HOME environment variable first, falls back to ~/.config if not set. 4) Add environment variable override support for all config options using CCUSAGE_BYOBU_ prefix. 5) Remove all shell RC file modifications from installer scripts. 6) Create migration utility to detect existing shell RC configurations and offer to migrate settings. 7) Update lib/config.js to use new config loading system with proper error handling and validation. 8) Implement config validation schema to ensure configuration integrity. 9) Add config reset/repair functionality. 10) Update documentation to reflect new configuration approach and migration process.",
+        "testStrategy": "Test config precedence by creating configs at different levels and verifying correct override behavior. Test environment variable overrides for all config options. Verify XDG_CONFIG_HOME environment variable is respected when set. Test migration utility with various existing shell RC configurations. Validate config directory creation with proper permissions on different platforms. Test config loading with corrupted/invalid JSON files to ensure graceful error handling. Verify backward compatibility by testing with systems that have existing shell RC modifications. Test config reset functionality restores proper defaults. Run integration tests on clean systems to ensure no shell RC files are modified during installation.",
+        "status": "pending",
+        "dependencies": [
+          17
+        ],
+        "priority": "high",
+        "subtasks": []
       }
     ],
     "metadata": {
       "created": "2025-06-23T22:21:54.073Z",
-      "updated": "2025-06-26T00:01:25.256Z",
+      "updated": "2025-06-27T01:20:50.511Z",
       "description": "Tasks for master context"
     }
   }
