@@ -1,6 +1,6 @@
 {
   "name": "ccusage-byobu",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Real-time Claude Code API usage monitoring for byobu/tmux status bars with colored indicators, persistent caching, and automated integration",
   "main": "./lib/index.js",
   "bin": {
